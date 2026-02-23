@@ -1,6 +1,11 @@
 .gradle/
 build/
 bin/
+out/
 *.class
 .vscode/
-*.jar
+.idea/
+*.iml
+.DS_Store
+*.log
+!gradle/wrapper/gradle-wrapper.jar
