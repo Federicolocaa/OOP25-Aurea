@@ -1,8 +1,7 @@
 package it.unibo.aurea.model;
 
-import java.lang.reflect.Parameter;
-
 import it.unibo.aurea.api.Effect;
+import it.unibo.aurea.api.Parameter;
 
 public class EffectImpl implements Effect{
     private Parameter parameter;
@@ -14,10 +13,10 @@ public class EffectImpl implements Effect{
     }
 
     public Parameter getParameter() {
-        return parameter;
+        return this.parameter;
     }
 
     public Integer getDelta() {
-        return delta;
+        return this.delta;
     }
 }
