@@ -1,4 +1,4 @@
-package it.unibo.aurea.api;
+package it.unibo.aurea.model.api;
 
 /**
  * Element of the game that decides what card give to the player based on his rule.

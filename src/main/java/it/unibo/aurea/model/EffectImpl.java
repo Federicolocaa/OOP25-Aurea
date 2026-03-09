@@ -1,7 +1,7 @@
 package it.unibo.aurea.model;
 
-import it.unibo.aurea.api.Effect;
-import it.unibo.aurea.api.Parameter;
+import it.unibo.aurea.model.api.Effect;
+import it.unibo.aurea.model.api.Parameter;
 
 public class EffectImpl implements Effect{
     private Parameter parameter;

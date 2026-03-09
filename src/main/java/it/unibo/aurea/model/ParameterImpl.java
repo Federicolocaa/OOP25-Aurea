@@ -1,7 +1,7 @@
 package it.unibo.aurea.model;
 
-import it.unibo.aurea.api.KeyNumber;
-import it.unibo.aurea.api.Parameter;
+import it.unibo.aurea.model.api.KeyNumber;
+import it.unibo.aurea.model.api.Parameter;
 
 public class ParameterImpl implements Parameter{
     private String name;

@@ -1,9 +1,9 @@
 package it.unibo.aurea.model;
 
-import it.unibo.aurea.api.Card;
-import it.unibo.aurea.api.Effect;
+import it.unibo.aurea.model.api.Card;
+import it.unibo.aurea.model.api.Effect;
 
-public class CardImpl implements Card{
+public class CardImpl implements Card {
 
     private String description;
     private Pair<String,String> answers;

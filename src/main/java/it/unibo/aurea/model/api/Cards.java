@@ -1,4 +1,4 @@
-package it.unibo.aurea.api;
+package it.unibo.aurea.model.api;
 
 // DA RIVEDERE
 

@@ -1,4 +1,4 @@
-package it.unibo.aurea.api;
+package it.unibo.aurea.model.api;
 
 /** 
  * It contains the usefull number about the level of a {@code Parameter}.

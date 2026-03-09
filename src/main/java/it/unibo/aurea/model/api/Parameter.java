@@ -1,4 +1,4 @@
-package it.unibo.aurea.api;
+package it.unibo.aurea.model.api;
 
 /** 
  * Represents the structure of the four parameter of the game: FINANCE, STUDENT, PROFESSOR, REPUTATION 
