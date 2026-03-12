@@ -3,7 +3,8 @@ package it.unibo.aurea.model.api;
 import it.unibo.aurea.model.Pair;
 
 /**
- * Represents a question made to the player.
+ * Represents a question made to the player. 
+ * The effects created must be in this order: the first one is the rejection of the proposal, the second one is the acceptance.
  * 
  */
 public interface Card {

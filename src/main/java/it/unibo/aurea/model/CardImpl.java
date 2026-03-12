@@ -9,14 +9,14 @@ public class CardImpl implements Card {
     private String description;
     private Pair<String,String> answers;
     private CharacterType character;
-    private Pair<Effect,Effect> weights;
+    private Pair<Effect,Effect> effects;
     private boolean used;
 
-    public CardImpl(CharacterType character, String description, Pair<String, String> answers, Effect first, Effect second) {
+    public CardImpl(CharacterType character, String description, Decision reject, Decision approve) {
         this.description = description;
         this.character = character;
-        this.answers = answers;
-        this.weights = new Pair<Effect,Effect>(first, second);
+        this.answers = new Pair<String,String>(reject.getAnswer(), approve.getAnswer());
+        this.effects = new Pair<Effect,Effect>(reject.getEffect1(), approve.getEffect2());
         this.used = false;
     }
 
@@ -32,7 +32,7 @@ public class CardImpl implements Card {
 
     @Override
     public Pair<Effect, Effect> getEffects() {
-        return this.weights;
+        return this.effects;
     }
 
     @Override
@@ -42,7 +42,7 @@ public class CardImpl implements Card {
 
     @Override
     public CharacterType getCharacter() {
-        return character;
+        return this.character;
     }
 
 }

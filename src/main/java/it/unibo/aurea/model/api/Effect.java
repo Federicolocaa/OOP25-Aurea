@@ -10,7 +10,7 @@ public interface Effect {
      * 
      * @return the {@code Parameter} the effect is on
      */
-    Parameter getParameter();
+    ParameterType getParameter();
 
     /**
      * Indicates the impact of this effect.
