@@ -2,10 +2,10 @@ package it.unibo.aurea.model;
 
 import java.util.Objects;
 
-/*
+/**
  * A standard generic Pair<E1,E2>, with getters, hashCode, equals, and toString well implemented. 
+ * 
  */
-
 public class Pair<E1,E2> {
 	
 	private final E1 e1;

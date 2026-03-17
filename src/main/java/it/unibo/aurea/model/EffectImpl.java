@@ -18,7 +18,7 @@ public class EffectImpl implements Effect{
     }
 
     @Override
-    public Integer getDelta() {
+    public int getDelta() {
         return this.delta;
     }
 

@@ -3,7 +3,8 @@ package it.unibo.aurea.model;
 import it.unibo.aurea.model.api.Effect;
 
 /** 
- * A class representing a pair of {@code Effect} and a {@code String} associated with one answer of a card.
+ * Represents the consequences of a {@code Card}.
+ * Contains two {@code Effect} and a {@code String} with the answer.
  *  
  */
 public class Decision {

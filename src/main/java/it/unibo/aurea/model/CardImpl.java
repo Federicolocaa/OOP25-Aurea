@@ -1,22 +1,23 @@
 package it.unibo.aurea.model;
 
+import java.util.List;
+
 import it.unibo.aurea.model.api.Card;
 import it.unibo.aurea.model.api.CharacterType;
 import it.unibo.aurea.model.api.Effect;
 
 public class CardImpl implements Card {
-
-    private String description;
-    private Pair<String,String> answers;
     private CharacterType character;
-    private Pair<Effect,Effect> effects;
+    private String description;
+    private Decision refusal;
+    private Decision approval;
     private boolean used;
 
-    public CardImpl(CharacterType character, String description, Decision reject, Decision approve) {
-        this.description = description;
+    public CardImpl(CharacterType character, String description, Decision refusal, Decision approval) {
         this.character = character;
-        this.answers = new Pair<String,String>(reject.getAnswer(), approve.getAnswer());
-        this.effects = new Pair<Effect,Effect>(reject.getEffect1(), approve.getEffect2());
+        this.description = description;
+        this.refusal = refusal;
+        this.approval = approval;
         this.used = false;
     }
 
@@ -27,12 +28,7 @@ public class CardImpl implements Card {
 
     @Override
     public Pair<String, String> getAnswers() {
-        return this.answers;
-    }
-
-    @Override
-    public Pair<Effect, Effect> getEffects() {
-        return this.effects;
+        return new Pair<String,String>(refusal.getAnswer(), approval.getAnswer());
     }
 
     @Override
@@ -43,6 +39,21 @@ public class CardImpl implements Card {
     @Override
     public CharacterType getCharacter() {
         return this.character;
+    }
+
+    @Override
+    public Decision getRefusal() {
+        return this.refusal;
+    }
+
+    @Override
+    public Decision getApproval() {
+        return this.approval;
+    }
+
+    @Override
+    public List<Effect> getAllEffects() {
+        return List.of(refusal.getEffect1(), refusal.getEffect2(), approval.getEffect1(), approval.getEffect2());  
     }
 
 }

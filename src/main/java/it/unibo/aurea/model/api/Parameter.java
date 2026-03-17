@@ -1,18 +1,19 @@
 package it.unibo.aurea.model.api;
 
 /** 
- * Represents the structure of the four parameter of the game: FINANCE, STUDENT, PROFESSOR, REPUTATION 
+ * Represents the structure of the four parameter of the game.
+ * 
  */
 public interface Parameter {
     /**
      * Indicates the level of the current parameter.
      * 
-     * @return the number between 0/100
+     * @return an {@code int} between 0/100
      */
-    Integer level();
+    int getLevel();
 
     /**
-     * It performs the raises or decreases of the level of this parameter. Based on the level, it modify the liveness of this parameter.
+     * Performs the raises or decreases of the level of this parameter. Based on the level it can modify the life of this parameter.
      * 
      * @param delta the amount to add/subtract based on the sign.
      */
@@ -26,10 +27,10 @@ public interface Parameter {
     boolean isAlive();
 
     /**  
-     * Indicates the current parameter.
+     * Indicates the name of the current parameter.
      * 
      * @return the name of the parameter in UPPER_CASE
      */
-    String name();
+    String getName();
 }
 
