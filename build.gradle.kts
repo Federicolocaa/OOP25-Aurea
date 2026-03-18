@@ -58,10 +58,12 @@ tasks.withType<Test> {
     // Enables JUnit 5 Jupiter module
     useJUnitPlatform()
 }
-
+/**  THIS PART OF CODDE IS TEMPORARLY COMMENTED BECAUSE WE DON'T HAVE 
+A Main CLASS
 val main: String by project
 
 application {
     // Define the main class for the application
     mainClass.set(main)
 }
+*/
