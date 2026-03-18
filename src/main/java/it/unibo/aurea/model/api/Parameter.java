@@ -1,6 +1,6 @@
 package it.unibo.aurea.model.api;
 
-/** 
+/**
  * Represents the structure of the four parameter of the game.
  * 
  */
@@ -13,11 +13,12 @@ public interface Parameter {
     int getLevel();
 
     /**
-     * Performs the raises or decreases of the level of this parameter. Based on the level it can modify the life of this parameter.
+     * Performs the raises or decreases of the level of this parameter. 
+     * Based on the level it can modify the life of this parameter.
      * 
      * @param delta the amount to add/subtract based on the sign.
      */
-    void modify(Integer delta);
+    void modify(int delta);
 
     /**
      * Indicates if the player can continue the game based on this parameter.
@@ -26,11 +27,11 @@ public interface Parameter {
      */
     boolean isAlive();
 
-    /**  
+    /**
      * Indicates the name of the current parameter.
      * 
-     * @return the name of the parameter in UPPER_CASE
+     * @return the name of the parameter 
      */
-    String getName();
+    ParameterType getName();
 }
 

@@ -1,6 +1,6 @@
 package it.unibo.aurea.model.api;
 
-/** 
+/**
  * Manage the time during the game.
  */
 public interface GameClock {

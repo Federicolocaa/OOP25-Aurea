@@ -3,7 +3,6 @@ package it.unibo.aurea.model.api;
 import java.util.List;
 
 import it.unibo.aurea.model.Decision;
-import it.unibo.aurea.model.Pair;
 
 /**
  * Represents a question made to the player. 
@@ -17,13 +16,6 @@ public interface Card {
      * @return the {@code String} of a question
      */
     String getDescription();
-
-    /**
-     * Get the possible answers of the following question.
-     * 
-     * @return a {@code Pair<>} containing the text of the answers 
-     */
-    Pair<String,String> getAnswers();
 
     /** 
      * Indicates if a card has been used or not.
@@ -54,9 +46,14 @@ public interface Card {
     Decision getApproval();
 
     /**
-     * Represent an overview on the consequences of this card on the parameters.
+     * Represents an overview on the consequences of this card on the parameters.
      * 
      * @return a {@code List} of the effect connected with this card
      */
     List<Effect> getAllEffects();
+
+    /**
+     * Sets the usage of this card to {@code true}.
+     */
+    void changeUsage();
 }

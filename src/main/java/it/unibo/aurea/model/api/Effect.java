@@ -1,6 +1,6 @@
 package it.unibo.aurea.model.api;
 
-/** 
+/**
  * Represents which and how a parameter is modified.
  * 
  */
