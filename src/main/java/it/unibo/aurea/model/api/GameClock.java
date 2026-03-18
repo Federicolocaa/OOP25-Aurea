@@ -24,4 +24,22 @@ public interface GameClock {
      * increase the number of card already shown to the player
      */
     void increaseCardIndex();
+
+    /**
+     * 
+     * @return the current semester
+     */
+    int getCurrentSemester();
+
+    /**
+     * 
+     * @return how many semester are played in a game.
+     */
+    int getSemestersPerGame();
+
+    /**
+     * 
+     * increase the numer of semsters palyed by the player
+     */
+    void increaseCurrentSemester();
 }
