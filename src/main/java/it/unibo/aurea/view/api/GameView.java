@@ -1,0 +1,34 @@
+package it.unibo.aurea.view.api;
+
+import it.unibo.aurea.model.api.Card;
+
+/**
+ * Represents the main interface for the game's View.
+ * It defines how the system shows outputs to the player.
+ */
+public interface GameView {
+
+    /**
+     * Updates the UI to show a new card to the player.
+     *
+     * @param card the {@code Card} to display
+     */
+    void displayCard(Card card);
+
+    /**
+     * Updates the UI bars/icons for a specific parameter.
+     *
+     * @param finances the current level of Finances
+     * @param students the current level of Students
+     * @param professors the current level of Professors
+     * @param reputation the current level of Reputation
+     */
+    void updateParameters(int finances, int students, int professors, int reputation);
+
+    /**
+     * Displays the Game Over screen.
+     *
+     * @param message the reason of the game over
+     */
+    void showGameOver(String message);
+}
