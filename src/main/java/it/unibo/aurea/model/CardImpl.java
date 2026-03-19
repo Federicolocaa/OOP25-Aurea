@@ -1,5 +1,6 @@
 package it.unibo.aurea.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import it.unibo.aurea.model.api.Card;
@@ -77,7 +78,10 @@ public class CardImpl implements Card {
      */
     @Override
     public List<Effect> getAllEffects() {
-        return List.of(refusal.getEffect1(), refusal.getEffect2(), approval.getEffect1(), approval.getEffect2());
+        final List<Effect> allEffects = new ArrayList<>();
+        allEffects.addAll(refusal.getEffects());
+        allEffects.addAll(approval.getEffects());
+        return allEffects;
     }
 
     /**

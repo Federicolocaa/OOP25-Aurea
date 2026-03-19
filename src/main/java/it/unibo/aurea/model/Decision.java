@@ -1,48 +1,41 @@
 package it.unibo.aurea.model;
 
+import java.util.List;
+
 import it.unibo.aurea.model.api.Effect;
 
-/** 
+/**
  * Represents the consequences of a {@code Card}.
- * Contains two {@code Effect} and a {@code String} with the answer.
+ * Contains a dynamic list of {@code Effect} and a {@code String} with the answer.
  */
 public class Decision {
     private final String answer;
-    private final Effect effect1;
-    private final Effect effect2;
+    private final List<Effect> effects;
 
     /**
-     * Costructor of an element decision.
-     * 
+     * Constructor of an element decision.
+     * Uses varargs to allow any number of effects (0, 1, 2, or more).
+     *
      * @param answer the {@code String} of the answer
-     * @param effect1 the first {@code Effect}
-     * @param effect2 the second {@code Effect}
+     * @param effects a variable number of {@code Effect}
      */
-    public Decision(final String answer, final Effect effect1, final Effect effect2) {
+    public Decision(final String answer, final Effect... effects) {
         this.answer = answer;
-        this.effect1 = effect1;
-        this.effect2 = effect2;
+        this.effects = List.of(effects);
     }
 
     /**
-     * @return the {@code String} of the asnwer of this decision.
+     * @return the {@code String} of the answer of this decision.
      */
     public String getAnswer() {
         return answer;
     }
 
     /**
-     * @return the first {@code Effect} of this decision.
+     * @return a {@code List} of all the effects of this decision.
      */
-    public Effect getEffect1() {
-        return effect1;
-    }
-
-    /**
-     * @return the second {@code Effect} of this decision.
-     */
-    public Effect getEffect2() {
-        return effect2;
+    public List<Effect> getEffects() {
+        return effects;
     }
 
 }

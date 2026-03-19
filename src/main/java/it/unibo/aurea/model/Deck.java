@@ -30,50 +30,50 @@ public class Deck {
 
     private void makeProfessorCards() {
         this.cardsDeck.add(new CardImpl(CharacterType.PROFESSOR,
-        "Rector, the faculty is requesting funding for a new research initiative. Will the university support it?",
-        new Decision("No, the budget is too tight", 
+            "Rector, the faculty is requesting funding for a new research "
+            + "initiative. Will the university support it?",
+            new Decision("No, the budget is too tight", 
                 new EffectImpl(ParameterType.PROFESSORS, -MEDIUM_CHANGE), 
                 new EffectImpl(ParameterType.STUDENTS, -SMALL_CHANGE)),
-        new Decision("Yes, research must be supported", 
+            new Decision("Yes, research must be supported", 
                 new EffectImpl(ParameterType.PROFESSORS, MEDIUM_CHANGE), 
                 new EffectImpl(ParameterType.FINANCES, -MEDIUM_CHANGE))));
     }
 
     private void makeMumCards() {
         this.cardsDeck.add(new CardImpl(CharacterType.MUM,
-        "Rector, many families care about the university's public image."
-        + "Would you invest in a campaign to improve the institution's reputation?",
-        new Decision("No, that would be unnecessary spending", 
+            "Rector, many families care about the university's public image. "
+            + "Would you invest in a campaign to improve the institution's reputation?",
+            new Decision("No, that would be unnecessary spending", 
                 new EffectImpl(ParameterType.REPUTATION, -MEDIUM_CHANGE), 
                 new EffectImpl(ParameterType.STUDENTS, -SMALL_CHANGE)),
-        new Decision("Yes, let's promote the university", 
+            new Decision("Yes, let's promote the university", 
                 new EffectImpl(ParameterType.REPUTATION, LARGE_CHANGE), 
                 new EffectImpl(ParameterType.FINANCES, -MEDIUM_CHANGE))));
     }
 
     private void makeBusinessmanCards() {
         this.cardsDeck.add(new CardImpl(CharacterType.BUSINESSMAN,
-        "Rector, my company would like to sponsor a new technology lab for the university." 
-        + "Would you accept our investment?",
-        new Decision("No, we prefer to remain independent", 
+            "Rector, my company would like to sponsor a new technology lab " 
+            + "for the university. Would you accept our investment?",
+            new Decision("No, we prefer to remain independent", 
                 new EffectImpl(ParameterType.FINANCES, -MEDIUM_CHANGE), 
                 new EffectImpl(ParameterType.REPUTATION, -SMALL_CHANGE)),
-        new Decision("Yes, we welcome the investment", 
+            new Decision("Yes, we welcome the investment", 
                 new EffectImpl(ParameterType.FINANCES, LARGE_CHANGE), 
                 new EffectImpl(ParameterType.REPUTATION, SMALL_CHANGE))));
     }
 
     private void makeStudentCards() {
         this.cardsDeck.add(new CardImpl(CharacterType.STUDENT,
-        "Rector, would you consider funding a large student festival on campus "
-        + "to improve student life and strengthen our community?",
-        new Decision("No, we can't", 
-            new EffectImpl(ParameterType.STUDENTS, -MEDIUM_CHANGE), 
-            new EffectImpl(ParameterType.REPUTATION, -SMALL_CHANGE)),
-        new Decision("Yeah, do it", 
-            new EffectImpl(ParameterType.STUDENTS, LARGE_CHANGE), 
-            new EffectImpl(ParameterType.FINANCES, -SMALL_CHANGE))));
-
+            "Rector, would you consider funding a large student festival "
+            + "on campus to improve student life and strengthen our community?",
+            new Decision("No, we can't", 
+                new EffectImpl(ParameterType.STUDENTS, -MEDIUM_CHANGE), 
+                new EffectImpl(ParameterType.REPUTATION, -SMALL_CHANGE)),
+            new Decision("Yeah, do it", 
+                new EffectImpl(ParameterType.STUDENTS, LARGE_CHANGE), 
+                new EffectImpl(ParameterType.FINANCES, -SMALL_CHANGE))));
     }
 
     /**

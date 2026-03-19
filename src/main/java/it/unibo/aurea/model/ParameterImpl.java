@@ -6,9 +6,13 @@ import it.unibo.aurea.model.api.ParameterType;
 /**
  * {@inheritDoc}.
  */
-public class ParameterImpl implements Parameter {
+public final class ParameterImpl implements Parameter {
+
+    /** Start level constant. */
     public static final int START_LEVEL = 50;
+    /** Min level constant. */
     public static final int MIN_LEVEL = 0;
+    /** Max level constant. */
     public static final int MAX_LEVEL = 100;
 
     private final ParameterType name;
@@ -16,8 +20,8 @@ public class ParameterImpl implements Parameter {
     private boolean alive;
 
     /**
-     * Constructor of a specifc parameter.
-     * 
+     * Constructor of a specific parameter.
+     *
      * @param name the name of a {@code ParameterType}
      */
     public ParameterImpl(final ParameterType name) {
@@ -26,36 +30,28 @@ public class ParameterImpl implements Parameter {
         this.alive = true;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public int getLevel() {
         return this.level;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void modify(final int delta) {
         this.level += delta;
-        if (this.level <= MIN_LEVEL || this.level >= MAX_LEVEL) {
+        if (this.level >= MAX_LEVEL) {
+            this.level = MAX_LEVEL;
+            this.alive = false;
+        } else if (this.level <= MIN_LEVEL) {
+            this.level = MIN_LEVEL;
             this.alive = false;
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public boolean isAlive() {
        return this.alive;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public ParameterType getName() {
         return this.name;
