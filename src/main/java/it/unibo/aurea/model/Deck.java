@@ -1,54 +1,44 @@
 package it.unibo.aurea.model;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 
 import it.unibo.aurea.model.api.Card;
 import it.unibo.aurea.model.api.CharacterType;
 import it.unibo.aurea.model.api.ParameterType;
+import it.unibo.aurea.model.dto.CardDTO;
+import it.unibo.aurea.model.dto.CardsFile;
+import it.unibo.aurea.model.dto.EffectDTO;
 
 /**
  * It represents the container of all the cards of the game. 
  */
 public class Deck {
-    public static final int LARGE_CHANGE = 15;
-    public static final int MEDIUM_CHANGE = 7;
-    public static final int SMALL_CHANGE = 3;
-
     private final List<Card> cardsDeck = new ArrayList<>();
 
     /**
-     * Constructor of the deck. It makes all the cards ready for the game. 
+     * Constructor of the deck from a .yaml file. 
+     * 
+     * @throws IOException if the reading from the file doesn't work
      */
-    public Deck() {
-        this.makeStudentCards();
-        this.makeProfessorCards();
-        this.makeMumCards();
-        this.makeBusinessmanCards();
-    }
-
-    private void makeProfessorCards() {
-        this.cardsDeck.add(new CardImpl.Builder()
-        .description("Rector, the faculty is requesting funding for a new research "
-            + "initiative. Will the university support it?")
-        .textRefusal("No, the budget is too tight")
-        .effectRefusal(ParameterType.PROFESSORS, -MEDIUM_CHANGE)
-        .effectRefusal(ParameterType.STUDENTS, -SMALL_CHANGE)
-        .textApproval("Yes, research must be supported")
-        .effectApproval(ParameterType.PROFESSORS, MEDIUM_CHANGE)
-        .effectApproval(ParameterType.FINANCES, -MEDIUM_CHANGE)
-        .build());
-
-    }
-
-    private void makeMumCards() {
-    }
-
-    private void makeBusinessmanCards() {
-    }
-
-    private void makeStudentCards() {
+    public Deck() throws IOException {
+        try (InputStream input = Deck.class.getResourceAsStream("cards.yaml")) {
+            if (Objects.isNull(input)) {
+                throw new IllegalStateException("unable to find cards.yaml file");
+            }
+            final ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
+            final CardsFile file = mapper.readValue(input, CardsFile.class);
+            this.cardsDeck.addAll(file.cards().stream().map(this::toCard).toList());
+        } catch (final IOException e) {
+            throw new IllegalStateException("Failed to load cards from YAML", e);
+        }
     }
 
     /**
@@ -99,5 +89,29 @@ public class Deck {
             .filter(c -> c.getAllEffects().stream()
             .anyMatch(e -> e.getDelta() == delta))
             .collect(Collectors.toList());
+    }
+
+    /**
+     * Private method that converts an istance of {@code CardDTO} in a {@code Card}.
+     * 
+     * @param cardDto the element to convert
+     * @return a {@code Card} with the same characteristics of the input
+     */
+    private Card toCard(final CardDTO cardDto) {
+        final var res = new CardImpl.Builder()
+            .character(cardDto.character())
+            .description(cardDto.description())
+            .textRefusal(cardDto.refusal().text())
+            .textApproval(cardDto.approval().text());
+
+            for (final EffectDTO e : cardDto.refusal().effects()) {
+                res.effectRefusal(e.parameter(), e.delta());
+            }
+
+            for (final EffectDTO e : cardDto.approval().effects()) {
+                res.effectApproval(e.parameter(), e.delta());
+            }
+
+        return res.build();
     }
 }

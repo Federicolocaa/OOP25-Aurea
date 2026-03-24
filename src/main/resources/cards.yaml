@@ -1,0 +1,17 @@
+cards:
+  - character: PROFESSOR
+    description: "Rector, the faculty is requesting funding for a new research initiative. Will the university support it?"
+    refusal:
+      text: "No, the budget is too tight"
+      effects:
+        - parameter: PROFESSORS
+          delta: -7
+        - parameter: STUDENTS
+          delta: -3
+    approval:
+      text: "Yes, research must be supported"
+      effects:
+        - parameter: PROFESSORS
+          delta: 7
+        - parameter: FINANCES
+          delta: -3
