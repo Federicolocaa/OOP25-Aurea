@@ -2,15 +2,10 @@ package it.unibo.aurea.model;
 
 import it.unibo.aurea.model.api.GameClock;
 
-public class GameClockImpl implements GameClock{
-
-    /**
-     * increase the numer of semeters played by the player.
-     */
-    private void increaseCureentSemester() {
-        // TODO Auto-generated method stub
-        
-    }
+/**
+ * imlmentation of the GameClock.
+ */
+public final class GameClockImpl implements GameClock {
 
     @Override
     public int getCurrentSemester() {
@@ -27,6 +22,6 @@ public class GameClockImpl implements GameClock{
     @Override
     public void nextTurn() {
         // TODO Auto-generated method stub
-        
+
     }
 }
