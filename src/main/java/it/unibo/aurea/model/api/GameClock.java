@@ -8,7 +8,7 @@ public interface GameClock {
      * @return how many cards were already presented to the player the number start from 0. 
      * 
      */
-    int getCardIndex();
+    int getCurrentTurn();
 
     /**
      * @return how many cards are presented for semester to the player
@@ -16,9 +16,9 @@ public interface GameClock {
     int getCardsPerSemester();
 
     /**
-     * increase the number of card already shown to the player.
+     * increase the number of card already shown to the player. and handles the end of the semester.
      */
-    void increaseCardIndex();
+    void nextTurn();
 
     /**
      * @return the current semester.
@@ -29,9 +29,4 @@ public interface GameClock {
      * @return how many semester are played in a game.
      */
     int getSemestersPerGame();
-
-    /**
-     * increase the numer of semeters played by the player.
-     */
-    void increaseCurrentSemester();
 }
