@@ -6,7 +6,9 @@ import it.unibo.aurea.model.api.GameConfig;
  * Here I've used a static factory pattern to handle the creation of many type of games.
  * For example in futurre could be intersting to create an apocalypse mode.
  */
-public final class GameConfigImpl implements GameConfig{
+public final class GameConfigImpl implements GameConfig {
+    private static final int STANDARD_CARDS_PER_SEMESTER = 6;
+    private static final int STANDARD_SEMESTERS_PER_GAME = 6;
     private final int semesters;
     private final int cardsPerSemester;
 
@@ -14,6 +16,7 @@ public final class GameConfigImpl implements GameConfig{
         this.cardsPerSemester = cardsPerSemester;
         this.semesters = semestersPerGame;
     }
+
     @Override
     public int getCardsPerSemester() {
         return cardsPerSemester;
@@ -24,8 +27,11 @@ public final class GameConfigImpl implements GameConfig{
         return semesters;
     }
 
+    /**
+     * @return a standard configuration, so 3 years and 6 card per semester.
+     */
     public static GameConfig createStandard() {
-        return new GameConfigImpl(6, 6);
+        return new GameConfigImpl(STANDARD_CARDS_PER_SEMESTER, STANDARD_SEMESTERS_PER_GAME);
     }
-    
+
 }
