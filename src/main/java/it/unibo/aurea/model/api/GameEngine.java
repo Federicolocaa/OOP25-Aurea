@@ -1,8 +1,23 @@
 package it.unibo.aurea.model.api;
 
 public interface GameEngine {
+
+    /**
+     * start the game with the selected configuration, probably the configuration will be edited by the programers.
+     * @param config contains infos, like number of semesters, turns...
+     */
     void start(GameConfig config);
-    void nextTurn();
+
+    /**
+     * verifys if the parameters are ok.
+     * @return true, if is game over
+     */
     boolean isGameOver();
+
+    /**
+     * Checks whether the game has reached a terminal condition.
+     *
+     * @return true if the game is over and the endgame phase should begin, false otherwise.
+     */
     boolean isGameFinished();
 }
