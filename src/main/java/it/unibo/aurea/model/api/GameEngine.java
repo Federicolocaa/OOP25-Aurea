@@ -25,4 +25,10 @@ public interface GameEngine {
      * @return true if the game is over and the endgame phase should begin, false otherwise.
      */
     boolean isGameFinished();
+
+    /**
+     * 
+     * @return the actual configuration for this game.
+     */
+    GameConfig getGameConfig();
 }
