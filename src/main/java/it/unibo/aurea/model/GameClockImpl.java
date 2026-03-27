@@ -1,7 +1,6 @@
 package it.unibo.aurea.model;
 
 import java.util.Objects;
-import java.util.concurrent.locks.Condition;
 
 import it.unibo.aurea.model.api.GameClock;
 import it.unibo.aurea.model.api.GameConfig;
@@ -12,11 +11,11 @@ import it.unibo.aurea.model.api.GameConfig;
 public final class GameClockImpl implements GameClock {
     private final GameConfig gameConfiguration;
     //we start from 0 with the counter.
-    private int currentTurn = 0;
-    private int currentSemester = 0;
-    private boolean timeFinished = false;
+    private int currentTurn;
+    private int currentSemester;
+    private boolean timeFinished;
 
-    public GameClockImpl(GameConfig gameConfiguration) {
+    public GameClockImpl(final GameConfig gameConfiguration) {
         this.gameConfiguration = Objects.requireNonNull(gameConfiguration);
     }
 

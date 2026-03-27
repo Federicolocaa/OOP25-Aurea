@@ -27,7 +27,6 @@ public interface GameEngine {
     boolean isGameFinished();
 
     /**
-     * 
      * @return the actual configuration for this game.
      */
     GameConfig getGameConfig();
