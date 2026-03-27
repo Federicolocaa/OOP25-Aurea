@@ -5,7 +5,7 @@ package it.unibo.aurea.model.api;
  */
 public interface GameClock {
     /**
-     * @return how many cards were already presented to the player the number start from 0. 
+     * @return how many cards were already presented to the player. the counter start from 0. 
      * 
      */
     int getCurrentTurn();
@@ -16,7 +16,7 @@ public interface GameClock {
     void nextTurn();
 
     /**
-     * @return the current semester.
+     * @return the current semester. the counter start from 0. 
      */
     int getCurrentSemester();
 }
