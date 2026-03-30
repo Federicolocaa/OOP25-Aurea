@@ -15,3 +15,54 @@ cards:
           delta: 7
         - parameter: FINANCES
           delta: -3
+
+  - character: STUDENT
+    description: "We want extended library hours during exam period?"
+    refusal:
+      text: "No, it would increase operational costs"
+      effects:
+        - parameter: STUDENTS
+          delta: -7
+        - parameter: FINANCES
+          delta: 3
+    approval:
+      text: "Yes, students need proper support"
+      effects:
+        - parameter: STUDENTS
+          delta: 7
+        - parameter: FINANCES
+          delta: -3
+
+  - character: MUM
+    description: "Many of us are concerned about campus safety and request additional security measures. Will you invest in it?"
+    refusal:
+      text: "No, current measures are sufficient"
+      effects:
+        - parameter: REPUTATION
+          delta: -7
+        - parameter: FINANCES
+          delta: 3
+    approval:
+      text: "Yes, student safety is a priority"
+      effects:
+        - parameter: REPUTATION
+          delta: 7
+        - parameter: FINANCES
+          delta: -3
+
+  - character: BUSINESSMAN
+    description: "Rector, a company proposes a partnership to fund research in exchange for influence over projects. Do you accept?"
+    refusal:
+      text: "No, academic independence comes first"
+      effects:
+        - parameter: PROFESSORS
+          delta: 7
+        - parameter: FINANCES
+          delta: -7
+    approval:
+      text: "Yes, funding is essential for growth"
+      effects:
+        - parameter: FINANCES
+          delta: 7
+        - parameter: REPUTATION
+          delta: -3
