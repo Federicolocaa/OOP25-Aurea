@@ -60,4 +60,14 @@ class CardLoaderTest {
         assertEquals(ParameterType.REPUTATION, third.getApproval().getEffects().getFirst().getParameter());
         assertEquals(MEDIUM_CHANGE, third.getApproval().getEffects().getFirst().getDelta());
     }
+
+    @Test
+    void imageLoader() throws IOException {
+        final Deck cards = new Deck();
+        for (final Card c : cards.getAllCards()) {
+            assertNotNull(
+                getClass().getResource(c.getCharacter().getImagePath()), 
+                "image not found" + c.getCharacter().getImagePath());
+        }
+    }
 }
