@@ -1,10 +1,11 @@
 package it.unibo.aurea.controller;
 
-import java.io.IOException;
+//import java.io.IOException;
 
 import it.unibo.aurea.controller.api.GameController;
-import it.unibo.aurea.model.Deck;
+//import it.unibo.aurea.model.Deck;
 import it.unibo.aurea.model.api.Card;
+import it.unibo.aurea.model.api.GameEngine;
 import it.unibo.aurea.view.api.GameView;
 
 /**
@@ -14,7 +15,7 @@ import it.unibo.aurea.view.api.GameView;
 public final class GameControllerImpl implements GameController {
 
     private final GameView view;
-    private final Deck deck;
+    private final GameEngine model;
     private Card currentCard;
 
     /**
@@ -22,18 +23,18 @@ public final class GameControllerImpl implements GameController {
      *
      * @param view the {@code GameView} to update
      */
-    public GameControllerImpl(final GameView view) throws IOException {
+    public GameControllerImpl(final GameView view, final GameEngine model) {
         this.view = view;
-        this.deck = new Deck();
+        this.model = model;
+        //this.deck = new Deck();
     }
 
     @Override
     public void startGame() {
+        model.start();
         // Extracts the first card (for now, the first of the list)
-        if (!deck.getAllCards().isEmpty()) {
-            this.currentCard = deck.getAllCards().get(0);
-            view.displayCard(this.currentCard);
-        }
+        currentCard = model.getCurrentCard(); 
+        view.displayCard(this.currentCard);
     }
 
     @Override
