@@ -10,7 +10,7 @@ public interface GameEngine {
      * 
      * @param config contains infos, like number of semesters, turns...
      */
-    void start(GameConfig config);
+    void start();
 
     /**
      * verifys if the parameters are ok.
@@ -30,4 +30,6 @@ public interface GameEngine {
      * @return the actual configuration for this game.
      */
     GameConfig getGameConfig();
+
+    Card getCurrentCard();
 }
