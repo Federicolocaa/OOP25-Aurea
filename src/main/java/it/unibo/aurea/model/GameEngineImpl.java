@@ -1,6 +1,5 @@
 package it.unibo.aurea.model;
 
-import java.io.IOException;
 import java.util.Objects;
 
 import it.unibo.aurea.model.api.Card;
@@ -14,7 +13,7 @@ import it.unibo.aurea.model.api.GameEngine;
 public final class GameEngineImpl implements GameEngine {
 
     private Card currentCard;
-    private Deck deck;
+    private final Deck deck;
     private final GameConfig config;
     private final GameClock gameClock;
 

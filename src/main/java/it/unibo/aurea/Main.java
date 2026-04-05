@@ -30,18 +30,17 @@ public final class Main {
             // creation of elements for the MVC objects
             final GameConfig config = GameConfigImpl.createStandard();
             final Deck deck = new Deck(); // Se qui fallisce, il catch sotto lo intercetta
-            
+
             //creation MVC objects
             final GameEngine engine = new GameEngineImpl(config, deck);
 
             final GameView view = new GameViewJavaFXImpl(); //here you can choose the implementaion of the view
 
             final GameController controller = new GameControllerImpl(view, engine);
-            
+
             controller.startGame();
-        } catch (final Exception e) {
-            // errors in configuration of the enviroment.
-            e.printStackTrace(); 
+        } catch (final IllegalStateException e) { 
+            System.err.println("errors in configuration of the enviroment"); //NOPMD
         }
     }
 }
