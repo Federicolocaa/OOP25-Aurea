@@ -13,6 +13,7 @@ public final class GameViewJavaFXImpl implements GameView {
      * Builds a new GameViewImpl.
      */
     public GameViewJavaFXImpl() {
+        //TODO implement it.
     }
 
     @Override

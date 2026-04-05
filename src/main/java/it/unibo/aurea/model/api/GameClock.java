@@ -23,5 +23,5 @@ public interface GameClock {
     /**
      * @return true if the conditions for the end of the game are True.
      */
-    public boolean isTimeFinished();
+    boolean isTimeFinished();
 }
