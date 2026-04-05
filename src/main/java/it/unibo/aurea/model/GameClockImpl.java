@@ -49,9 +49,7 @@ public final class GameClockImpl implements GameClock {
     }
 
     //GETTERS
-    /**
-     * @return true if the conditions for the end of the game are True.
-     */
+    @Override
     public boolean isTimeFinished() {
         return timeFinished;
     }

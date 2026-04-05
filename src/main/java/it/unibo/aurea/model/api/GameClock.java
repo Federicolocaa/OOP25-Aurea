@@ -19,4 +19,9 @@ public interface GameClock {
      * @return the current semester. the counter start from 0. 
      */
     int getCurrentSemester();
+
+    /**
+     * @return true if the conditions for the end of the game are True.
+     */
+    public boolean isTimeFinished();
 }
