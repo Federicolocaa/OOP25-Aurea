@@ -1,17 +1,23 @@
 package it.unibo.aurea.model;
 
 import it.unibo.aurea.model.api.Card;
+import it.unibo.aurea.model.api.GameClock;
 import it.unibo.aurea.model.api.GameConfig;
 import it.unibo.aurea.model.api.GameEngine;
 
+/**
+ * this is the main implementation of the model
+ */
 public class GameEngineImpl implements GameEngine{
 
     private Card currentCard;
     private Deck deck;
     private final GameConfig config;
+    private final GameClock gameClock;
 
-    public GameEngineImpl(GameConfig config) {
+    public GameEngineImpl(final GameConfig config) {
         this.config = config;
+        this.gameClock = new GameClockImpl(config);
 
     }
 
@@ -22,8 +28,8 @@ public class GameEngineImpl implements GameEngine{
 
     @Override
     public boolean isGameFinished() {
-        // TODO Auto-generated method stub
-        return false;
+        // TODO(insert the check of the condition fo the parameters) Auto-generated method stub
+        return gameClock.isTimeFinished(); 
     }
 
     @Override
@@ -44,8 +50,7 @@ public class GameEngineImpl implements GameEngine{
 
     @Override
     public Card getCurrentCard() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getCurrentCard'");
+        return currentCard;
     }
     
 }

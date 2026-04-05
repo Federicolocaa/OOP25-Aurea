@@ -2,7 +2,7 @@ package it.unibo.aurea.view;
 
 import it.unibo.aurea.model.api.Card;
 import it.unibo.aurea.view.api.GameView;
-import javafx.*;
+//import javafx.*;
 
 /**
  * Implementation of GameView with the usage of JavaFX.
