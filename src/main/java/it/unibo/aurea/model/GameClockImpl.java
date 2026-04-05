@@ -6,7 +6,7 @@ import it.unibo.aurea.model.api.GameClock;
 import it.unibo.aurea.model.api.GameConfig;
 
 /**
- * imlmentation of the GameClock.
+ * implmentation of the GameClock.
  */
 public final class GameClockImpl implements GameClock {
     private final GameConfig gameConfiguration;
@@ -15,17 +15,21 @@ public final class GameClockImpl implements GameClock {
     private int currentSemester;
     private boolean timeFinished;
 
+    /**
+     * this is the constructor method of the class.
+     * 
+     * @param gameConfiguration sets some setting of the game, like number of cards, semesters...
+     */
     public GameClockImpl(final GameConfig gameConfiguration) {
         this.gameConfiguration = Objects.requireNonNull(gameConfiguration);
     }
 
-
     @Override
     public void nextTurn() {
+        //TO DO implement the conditions for the parameters evaluation
         if (timeFinished) {
             throw new IllegalStateException("Game already finished");
         }
-
         if (hasNextTurnInSemester()) {
             currentTurn++;
         } else if (hasNextSemester()) {
@@ -37,14 +41,17 @@ public final class GameClockImpl implements GameClock {
     }
 
     private boolean hasNextSemester() {
-        return this.currentTurn +1 < this.gameConfiguration.getCardsPerSemester();
+        return this.currentTurn + 1 < this.gameConfiguration.getCardsPerSemester();
     }
 
     private boolean hasNextTurnInSemester() {
-        return this.currentSemester +1 < this.gameConfiguration.getSemestersPerGame();
+        return this.currentSemester + 1 < this.gameConfiguration.getSemestersPerGame();
     }
 
     //GETTERS
+    /**
+     * @return true if the conditions for the end of the game are True.
+     */
     public boolean isTimeFinished() {
         return timeFinished;
     }

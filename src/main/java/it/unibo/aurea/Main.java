@@ -10,6 +10,10 @@ import it.unibo.aurea.view.GameViewImpl;
 
 import it.unibo.aurea.view.api.GameView;
 
+/**
+ * this class is external from the MVC and si used only to start everything and creating the object model.
+ * it isn't a static method inside the controller for respect the SRP principle.
+ */
 public final class Main {
 
     private Main() {

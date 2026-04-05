@@ -7,8 +7,6 @@ public interface GameEngine {
 
     /**
      * start the game with the selected configuration, probably the configuration will be edited by the programers.
-     * 
-     * @param config contains infos, like number of semesters, turns...
      */
     void start();
 
@@ -31,5 +29,8 @@ public interface GameEngine {
      */
     GameConfig getGameConfig();
 
+    /**
+     * @return the current card.
+     */
     Card getCurrentCard();
 }

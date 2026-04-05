@@ -1,7 +1,5 @@
 package it.unibo.aurea.controller;
 
-//import java.io.IOException;
-
 import it.unibo.aurea.controller.api.GameController;
 //import it.unibo.aurea.model.Deck;
 import it.unibo.aurea.model.api.Card;
@@ -22,11 +20,11 @@ public final class GameControllerImpl implements GameController {
      * Constructor for the controller.
      *
      * @param view the {@code GameView} to update
+     * @param model the {@code GameEngine} used.
      */
     public GameControllerImpl(final GameView view, final GameEngine model) {
         this.view = view;
         this.model = model;
-        //this.deck = new Deck();
     }
 
     @Override
