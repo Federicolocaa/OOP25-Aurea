@@ -28,7 +28,7 @@ public class Deck {
      * 
      * @throws IOException if the reading from the file doesn't work
      */
-    public Deck() throws IOException {
+    public Deck() {
         try (InputStream input = Deck.class.getClassLoader().getResourceAsStream("cards.yaml")) {
             if (Objects.isNull(input)) {
                 throw new IllegalStateException("unable to find cards.yaml file");
