@@ -7,6 +7,7 @@ import it.unibo.aurea.model.api.Card;
 import it.unibo.aurea.model.api.GameClock;
 import it.unibo.aurea.model.api.GameConfig;
 import it.unibo.aurea.model.api.GameEngine;
+import it.unibo.aurea.model.api.Parameter;
 import it.unibo.aurea.model.api.ParameterType;
 
 /**
@@ -18,7 +19,7 @@ public final class GameEngineImpl implements GameEngine {
     private final Deck deck;
     private final GameConfig config;
     private final GameClock gameClock;
-    private final List<ParameterImpl> parameters = List.of(
+    private final List<Parameter> parameters = List.of(
         new ParameterImpl(ParameterType.FINANCES),
         new ParameterImpl(ParameterType.STUDENTS),
         new ParameterImpl(ParameterType.PROFESSORS),
@@ -55,7 +56,7 @@ public final class GameEngineImpl implements GameEngine {
         // Extracts the first card (for now, the first of the list)
         if (!deck.getAllCards().isEmpty()) {
             this.currentCard = deck.getAllCards().get(0);
-            //view.displayCard(this.currentCard);
+
         }
     }
 
@@ -65,12 +66,12 @@ public final class GameEngineImpl implements GameEngine {
     }
 
     @Override
-    public List<ParameterImpl> getParameters() {
+    public List<Parameter> getParameters() {
         return this.parameters;
     }
 
     @Override
-    public List<ParameterImpl> getCopyOfParameters() {
+    public List<Parameter> getCopyOfParameters() {
         return List.copyOf(parameters);
     }
 

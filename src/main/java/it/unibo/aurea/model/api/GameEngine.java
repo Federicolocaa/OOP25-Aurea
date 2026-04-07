@@ -17,12 +17,12 @@ public interface GameEngine {
     /**
      * verifys if the parameters are ok.
      * 
-     * @return true, if is game over
+     * @return true, if is game over it does every single check for any condition.
      */
     boolean isGameOver();
 
     /**
-     * Checks whether the game has reached a terminal condition.
+     * Checks the game has reached a terminal condition.
      *
      * @return true if the game is over and the endgame phase should begin, false otherwise.
      */
@@ -41,10 +41,12 @@ public interface GameEngine {
     /**
      * @return the list of parameters, it gives direct access to the object, so use it only if you need to change something.
      */
-    List<ParameterImpl> getParameters();
+    List<Parameter> getParameters();
 
     /**
      * @return  copy of the list of parameters.
      */
-    List<ParameterImpl> getCopyOfParameters();
+    List<Parameter> getCopyOfParameters();
+
+    GameClock getGameClock();
 }
