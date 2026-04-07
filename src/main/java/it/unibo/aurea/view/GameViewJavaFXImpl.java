@@ -35,4 +35,16 @@ public final class GameViewJavaFXImpl implements GameView {
     ) {
         // TODO Auto-generated method stub
     }
+
+    @Override
+    public void showDefeat() {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void showVictory() {
+        // TODO Auto-generated method stub
+        
+    }
 }
