@@ -48,8 +48,11 @@ public final class GameControllerImpl implements GameController {
         handleGameEnd();
     }
 
+    /**
+     * activates all the procedures for the end of the game, it's private because it can be called only affter the quit.
+     */
     private void handleGameEnd() {
-    GameState state = model.getGameState();
+        final GameState state = model.getGameState();
         switch (state) {
             case WON -> view.showVictory();
             case LOST -> view.showDefeat();
@@ -67,7 +70,7 @@ public final class GameControllerImpl implements GameController {
 
     @Override
     public void quitGame() {
-        // TODO
+        // TODO I've should understand if this is usable to quit safely with the gUI or to save localy the data, or for now is useless.
     }
 
     

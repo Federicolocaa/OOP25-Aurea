@@ -53,4 +53,9 @@ public interface GameEngine {
      * @return the gameClock, it allows to the other part of the code to use the clock.
      */
     GameClock getGameClock();
+
+    /**
+     * @return one of the possible states of the game: WON, LOST or CONTINUE.
+     */
+    GameState getGameState();
 }
