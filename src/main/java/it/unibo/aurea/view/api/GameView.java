@@ -31,4 +31,14 @@ public interface GameView {
      * @param message the reason of the game over
      */
     void showGameOver(String message);
+
+    /**
+     * this method handles the graphic of the victory situation.
+     */
+    void showVictory();
+
+    /**
+     * this method handles the graphic of the Game over situation.
+     */
+    void showDefeat();
 }

@@ -7,6 +7,7 @@ import it.unibo.aurea.model.api.Card;
 import it.unibo.aurea.model.api.GameClock;
 import it.unibo.aurea.model.api.GameConfig;
 import it.unibo.aurea.model.api.GameEngine;
+import it.unibo.aurea.model.api.GameState;
 import it.unibo.aurea.model.api.Parameter;
 import it.unibo.aurea.model.api.ParameterType;
 
@@ -42,17 +43,14 @@ public final class GameEngineImpl implements GameEngine {
     }
 
     @Override
-    public boolean isGameFinished() {
+    public boolean isTimeFinished() {
         return gameClock.isTimeFinished();
     }
 
-    @Override
-    public boolean isGameOver() {
-        return this.isGameFinished() || !this.areAllParametersAlive();
-    }
 
     @Override
     public void start() {
+        // THIS CODE IS APPROXIMATE
         // Extracts the first card (for now, the first of the list)
         if (!deck.getAllCards().isEmpty()) {
             this.currentCard = deck.getAllCards().get(0);
@@ -74,12 +72,27 @@ public final class GameEngineImpl implements GameEngine {
     public List<Parameter> getCopyOfParameters() {
         return List.copyOf(parameters);
     }
+    
+    @Override
+    public GameState getGameState() {
+        if (!areAllParametersAlive()) {
+            return GameState.LOST;
+        }
+        if (gameClock.isTimeFinished()) {
+            return GameState.WON;
+        }
+        return GameState.RUNNING;
+    }
 
     /**
      * @return true if all the parameters respect the condition <100 && >0.
      */
     private boolean areAllParametersAlive() {
-        return parameters.stream()
-                .allMatch(ParameterImpl::isAlive);
+        return parameters.stream().allMatch(Parameter::isAlive);
+    }
+
+    @Override
+    public GameClock getGameClock() {
+        return this.gameClock;
     }
 }

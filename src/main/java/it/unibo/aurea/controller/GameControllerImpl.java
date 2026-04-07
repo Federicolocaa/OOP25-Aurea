@@ -4,6 +4,7 @@ import it.unibo.aurea.controller.api.GameController;
 //import it.unibo.aurea.model.Deck;
 import it.unibo.aurea.model.api.Card;
 import it.unibo.aurea.model.api.GameEngine;
+import it.unibo.aurea.model.api.GameState;
 import it.unibo.aurea.view.api.GameView;
 
 /**
@@ -30,9 +31,30 @@ public final class GameControllerImpl implements GameController {
     @Override
     public void startGame() {
         model.start();
-        // Extracts the first card (for now, the first of the list)
-        currentCard = model.getCurrentCard(); 
-        view.displayCard(this.currentCard);
+
+        while (model.getGameState() == GameState.RUNNING) {
+            /* 
+            THIS CONTENT IS APPROXIMATE
+            view.showCard(model.getCurrentCard());
+
+            Choice choice = view.getUserChoice();
+
+            model.applyChoice(choice);
+
+            model.getGameClock().nextTurn();
+            */
+        }
+
+        handleGameEnd();
+    }
+
+    private void handleGameEnd() {
+    GameState state = model.getGameState();
+        switch (state) {
+            case WON -> view.showVictory();
+            case LOST -> view.showDefeat();
+            case RUNNING -> throw new IllegalStateException("Unexpected state");
+        }
     }
 
     @Override
@@ -48,4 +70,5 @@ public final class GameControllerImpl implements GameController {
         // TODO
     }
 
+    
 }
