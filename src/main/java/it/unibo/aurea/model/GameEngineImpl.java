@@ -66,9 +66,7 @@ public final class GameEngineImpl implements GameEngine {
         return currentCard;
     }
 
-    /**
-     * @return the list containing the objects Parameter.
-     */
+    @Override
     public List<ParameterImpl> getParameters() {
         return this.parameters;
     }
