@@ -2,7 +2,7 @@ package it.unibo.aurea.controller;
 
 import it.unibo.aurea.controller.api.GameController;
 //import it.unibo.aurea.model.Deck;
-import it.unibo.aurea.model.api.Card;
+//import it.unibo.aurea.model.api.Card;
 import it.unibo.aurea.model.api.GameEngine;
 import it.unibo.aurea.model.api.GameState;
 import it.unibo.aurea.view.api.GameView;
@@ -15,7 +15,7 @@ public final class GameControllerImpl implements GameController {
 
     private final GameView view;
     private final GameEngine model;
-    private Card currentCard;
+    //private Card currentCard;
 
     /**
      * Constructor for the controller.
@@ -41,8 +41,8 @@ public final class GameControllerImpl implements GameController {
 
             model.applyChoice(choice);
 
-            model.getGameClock().nextTurn();
             */
+            model.getGameClock().nextTurn();
         }
 
         handleGameEnd();
@@ -63,15 +63,12 @@ public final class GameControllerImpl implements GameController {
     @Override
     public void makeDecision(final boolean isApproval) {
         // Minimal logic to satisfy Checkstyle/PMD/SpotBugs.
-        if (this.currentCard != null && isApproval) {
-            this.currentCard.changeUsage();
-        }
+        throw new IllegalStateException("not implemented");
     }
 
     @Override
     public void quitGame() {
-        // TODO I've should understand if this is usable to quit safely with the gUI or to save localy the data, or for now is useless.
+        // TODO I've should understand if this is usable to quit safely with the 
+        // GUI or to save localy the data, or for now is useless.
     }
-
-    
 }

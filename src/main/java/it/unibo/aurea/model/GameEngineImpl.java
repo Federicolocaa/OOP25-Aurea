@@ -47,7 +47,6 @@ public final class GameEngineImpl implements GameEngine {
         return gameClock.isTimeFinished();
     }
 
-
     @Override
     public void start() {
         // THIS CODE IS APPROXIMATE
@@ -72,7 +71,7 @@ public final class GameEngineImpl implements GameEngine {
     public List<Parameter> getCopyOfParameters() {
         return List.copyOf(parameters);
     }
-    
+
     @Override
     public GameState getGameState() {
         if (!areAllParametersAlive()) {

@@ -2,8 +2,6 @@ package it.unibo.aurea.model.api;
 
 import java.util.List;
 
-
-
 /**
  * is the class, who manage the game, when it starts, how it ends.
  */
@@ -13,14 +11,6 @@ public interface GameEngine {
      * start the game with the selected configuration, probably the configuration will be edited by the programers.
      */
     void start();
-
-    /**
-     * verifys if the parameters are ok.
-     * 
-     * @return true, if is game over it does every single check for any condition.
-     
-    boolean isGameOver();
-    */
 
     /**
      * Checks the game has reached a terminal condition.
