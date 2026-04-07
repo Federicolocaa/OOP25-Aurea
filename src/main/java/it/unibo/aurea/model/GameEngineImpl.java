@@ -42,14 +42,12 @@ public final class GameEngineImpl implements GameEngine {
 
     @Override
     public boolean isGameFinished() {
-        // TODO(insert the check of the condition fo the parameters) Auto-generated method stub
         return gameClock.isTimeFinished();
     }
 
     @Override
     public boolean isGameOver() {
-        // TODO Auto-generated method stub
-        return false;
+        return this.isGameFinished() || !this.areAllParametersAlive();
     }
 
     @Override
@@ -69,5 +67,18 @@ public final class GameEngineImpl implements GameEngine {
     @Override
     public List<ParameterImpl> getParameters() {
         return this.parameters;
+    }
+
+    @Override
+    public List<ParameterImpl> getCopyOfParameters() {
+        return List.copyOf(parameters);
+    }
+
+    /**
+     * @return true if all the parameters respect the condition <100 && >0.
+     */
+    private boolean areAllParametersAlive() {
+        return parameters.stream()
+                .allMatch(ParameterImpl::isAlive);
     }
 }

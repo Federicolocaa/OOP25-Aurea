@@ -1,5 +1,9 @@
 package it.unibo.aurea.model.api;
 
+import java.util.List;
+
+import it.unibo.aurea.model.ParameterImpl;
+
 /**
  * is the class, who manage the game, when it starts, how it ends.
  */
@@ -33,4 +37,14 @@ public interface GameEngine {
      * @return the current card.
      */
     Card getCurrentCard();
+
+    /**
+     * @return the list of parameters, it gives direct access to the object, so use it only if you need to change something.
+     */
+    List<ParameterImpl> getParameters();
+
+    /**
+     * @return  copy of the list of parameters.
+     */
+    List<ParameterImpl> getCopyOfParameters();
 }
