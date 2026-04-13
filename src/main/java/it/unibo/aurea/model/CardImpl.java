@@ -13,6 +13,7 @@ import it.unibo.aurea.model.api.ParameterType;
  * {@inheritDoc}.
  */
 public class CardImpl implements Card {
+    private final String id;
     private final CharacterType character;
     private final String description;
     private final Decision refusal;
@@ -25,11 +26,20 @@ public class CardImpl implements Card {
      * @param builder the builder of a new card
      */
     public CardImpl(final Builder builder) {
+        this.id = builder.id;
         this.character = builder.character;
         this.description = builder.description;
         this.refusal = new Decision(builder.textRefusal, builder.refEffect1, builder.refEffect2);
         this.approval = new Decision(builder.textApproval, builder.appEffect1, builder.appEffect2);
         this.usage = false;
+    }
+
+    /**
+     * {@inheritDoc} 
+     */
+    @Override
+    public String getId() {
+        return this.id;
     }
 
     /**
@@ -97,6 +107,7 @@ public class CardImpl implements Card {
      * approval/refusal texts, and their effects).
      */
     public static class Builder {
+        private String id;
         private CharacterType character;
         private String description;
         private String textRefusal;
@@ -105,6 +116,17 @@ public class CardImpl implements Card {
         private String textApproval;
         private Effect appEffect1;
         private Effect appEffect2;
+
+        /**
+         * Sets the univocal id for this istance of card.
+         * 
+         * @param identity the {@code String} univocal for this card
+         * @return this builder
+         */
+        public Builder id(final String identity) {
+            this.id = identity;
+            return this;
+        }
 
         /**
          * Sets the character associated with the card.

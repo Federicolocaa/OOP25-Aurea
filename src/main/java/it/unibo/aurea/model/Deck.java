@@ -16,12 +16,15 @@ import it.unibo.aurea.model.api.ParameterType;
 import it.unibo.aurea.model.dto.CardDTO;
 import it.unibo.aurea.model.dto.CardsFile;
 import it.unibo.aurea.model.dto.EffectDTO;
+import it.unibo.aurea.model.dto.FollowUpDTO;
+import it.unibo.aurea.model.dto.FollowUpsFile;
 
 /**
  * It represents the container of all the cards of the game. 
  */
 public class Deck {
     private final List<Card> cardsDeck = new ArrayList<>();
+    private final List<FollowUpImpl> followUps = new ArrayList<>();
 
     /**
      * Constructor of the deck from a .yaml file. 
@@ -29,15 +32,19 @@ public class Deck {
      * @throws IOException if the reading from the file doesn't work
      */
     public Deck() {
-        try (InputStream input = Deck.class.getClassLoader().getResourceAsStream("cards.yaml")) {
-            if (Objects.isNull(input)) {
-                throw new IllegalStateException("unable to find cards.yaml file");
+        try (
+            InputStream cardIn = Deck.class.getClassLoader().getResourceAsStream("cards.yaml");
+            InputStream followUpIn = Deck.class.getClassLoader().getResourceAsStream("followups.yaml")) {
+            if (Objects.isNull(cardIn) || Objects.isNull(followUpIn)) {
+                throw new IllegalStateException("unable to find .yaml file");
             }
             final ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
-            final CardsFile file = mapper.readValue(input, CardsFile.class);
-            this.cardsDeck.addAll(file.cards().stream().map(this::toCard).toList());
+            final CardsFile cFile = mapper.readValue(cardIn, CardsFile.class);
+            final FollowUpsFile fuFile = mapper.readValue(followUpIn, FollowUpsFile.class);
+            this.cardsDeck.addAll(cFile.cards().stream().map(this::toCard).toList());
+            this.followUps.addAll(fuFile.followups().stream().map(this::toFollowUp).toList());
         } catch (final IOException e) {
-            throw new IllegalStateException("Failed to load cards from YAML", e);
+            throw new IllegalStateException("Failed to load cards and follow-up from YAML", e);
         }
     }
 
@@ -99,6 +106,7 @@ public class Deck {
      */
     private Card toCard(final CardDTO cardDto) {
         final var res = new CardImpl.Builder()
+            .id(cardDto.id())
             .character(cardDto.character())
             .description(cardDto.description())
             .textRefusal(cardDto.refusal().text())
@@ -113,5 +121,22 @@ public class Deck {
             }
 
         return res.build();
+    }
+
+    /**
+     * Private method that converts an istance of {@code FollowUpDTO} in a {@code FollowUpImpl}.
+     * 
+     * @param fuDTO the input element
+     * @return the correct output
+     */
+    private FollowUpImpl toFollowUp(final FollowUpDTO fuDTO) {
+        return new FollowUpImpl(fuDTO.parentId(), fuDTO.childId(), fuDTO.trigger(), fuDTO.delayTurn());
+    }
+
+    /**
+     * @return a copy list of all the follow-up
+     */
+    public List<FollowUpImpl> getAllFollowUps() {
+        return List.copyOf(this.followUps);
     }
 }

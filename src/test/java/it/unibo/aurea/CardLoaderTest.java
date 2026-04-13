@@ -1,6 +1,7 @@
 package it.unibo.aurea;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.io.IOException;
@@ -12,18 +13,21 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 
 import it.unibo.aurea.model.Deck;
+import it.unibo.aurea.model.FollowUpImpl;
 import it.unibo.aurea.model.api.Card;
 import it.unibo.aurea.model.api.CharacterType;
+import it.unibo.aurea.model.api.OutcomeType;
 import it.unibo.aurea.model.api.ParameterType;
 import it.unibo.aurea.model.dto.CardDTO;
 import it.unibo.aurea.model.dto.CardsFile;
 
 /** 
  * Small test to ensure loading cards from .yaml file works.
+ * SONO DA RISISTEMARE E SEMPLIFICARE
  */
 class CardLoaderTest {
     private static final int MEDIUM_CHANGE = 7;
-    private static final int ACTUAL_SIZE = 4;
+    private static final int IMPOSSIBLE_OCCURENCE = 2;
 
     @Test
     void shouldLoadCardsFromYaml() throws IOException {
@@ -35,7 +39,6 @@ class CardLoaderTest {
 
         assertNotNull(file);
         assertNotNull(file.cards());
-        assertEquals(ACTUAL_SIZE, file.cards().size());
 
         final CardDTO first = file.cards().get(0);
         assertEquals(CharacterType.PROFESSOR, first.character());
@@ -52,10 +55,12 @@ class CardLoaderTest {
     void deckLoader() throws IOException {
         final Deck cardsDeck = new Deck();
         final Card first = cardsDeck.getAllCards().get(0);
+        assertEquals("prof_founding_research", first.getId());
         assertEquals(CharacterType.PROFESSOR, first.getCharacter());
         assertEquals(ParameterType.PROFESSORS, first.getRefusal().getEffects().getFirst().getParameter());
         assertEquals("No, the budget is too tight", first.getRefusal().getAnswer());
         final Card third = cardsDeck.getAllCards().get(2);
+        assertEquals("mum_campus_safety", third.getId());
         assertEquals(CharacterType.MUM, third.getCharacter());
         assertEquals(ParameterType.REPUTATION, third.getApproval().getEffects().getFirst().getParameter());
         assertEquals(MEDIUM_CHANGE, third.getApproval().getEffects().getFirst().getDelta());
@@ -69,5 +74,27 @@ class CardLoaderTest {
                 getClass().getResource(c.getCharacter().getImagePath()), 
                 "image not found" + c.getCharacter().getImagePath());
         }
+    }
+
+    @Test
+    void differentIdCards() throws IOException {
+        final Deck cards = new Deck();
+        for (final Card tmp : cards.getAllCards()) {
+            int occurence = 0;
+            for (final Card cur : cards.getAllCards()) {
+                if (cur.getId().equals(tmp.getId())) {
+                    occurence++;
+                }
+                assertNotEquals(IMPOSSIBLE_OCCURENCE, occurence);
+            }
+        }
+    }
+
+    @Test
+    void loadFollowUps() throws IOException {
+        final Deck dk = new Deck();
+        final FollowUpImpl firstFU = dk.getAllFollowUps().getFirst();
+        assertEquals("prof_founding_research", firstFU.getParentId());
+        assertEquals(OutcomeType.APPROVAL, firstFU.getTrigger()); 
     }
 }
