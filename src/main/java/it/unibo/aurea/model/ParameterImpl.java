@@ -1,6 +1,10 @@
 package it.unibo.aurea.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import it.unibo.aurea.model.api.Parameter;
+import it.unibo.aurea.model.api.ParameterObserver;
 import it.unibo.aurea.model.api.ParameterType;
 
 /**
@@ -16,6 +20,7 @@ public final class ParameterImpl implements Parameter {
     public static final int MAX_LEVEL = 100;
 
     private final ParameterType name;
+    private final List<ParameterObserver> observers;
     private int level;
     private boolean alive;
 
@@ -28,6 +33,14 @@ public final class ParameterImpl implements Parameter {
         this.name = name;
         this.level = START_LEVEL;
         this.alive = true;
+        this.observers = new ArrayList<>();
+    }
+
+    @Override
+    public void addObserver(final ParameterObserver observer) {
+        if (!this.observers.contains(observer)) {
+            this.observers.add(observer);
+        }
     }
 
     @Override
@@ -45,6 +58,8 @@ public final class ParameterImpl implements Parameter {
             this.level = MIN_LEVEL;
             this.alive = false;
         }
+
+        this.notifyObservers();
     }
 
     @Override
@@ -55,6 +70,15 @@ public final class ParameterImpl implements Parameter {
     @Override
     public ParameterType getName() {
         return this.name;
+    }
+
+    /**
+     * Notifies all registered observers about a change in the parameter's level.
+     */
+    private void notifyObservers() {
+        for (final ParameterObserver observer : this.observers) {
+            observer.onParameterChanged(this.name, this.level);
+        }
     }
 
 }

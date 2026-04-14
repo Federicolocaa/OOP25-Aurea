@@ -33,5 +33,12 @@ public interface Parameter {
      * @return the name of the parameter 
      */
     ParameterType getName();
+
+    /**
+     * Adds an observer that will be notified of any changes to this parameter.
+     *
+     * @param observer the {@code ParameterObserver} to add
+     */
+    void addObserver(ParameterObserver observer);
 }
 
