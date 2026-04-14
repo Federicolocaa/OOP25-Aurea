@@ -54,7 +54,14 @@ public class Deck {
      * @return a {@code List} of cards
      */
     public List<Card> getAllCards() {
-        return new ArrayList<>(this.cardsDeck);
+        return List.copyOf(this.cardsDeck);
+    }
+
+    /**
+     * @return a copy list of all the follow-up
+     */
+    public List<FollowUpImpl> getAllFollowUps() {
+        return List.copyOf(this.followUps);
     }
 
     /**
@@ -133,10 +140,4 @@ public class Deck {
         return new FollowUpImpl(fuDTO.parentId(), fuDTO.childId(), fuDTO.trigger(), fuDTO.delayTurn());
     }
 
-    /**
-     * @return a copy list of all the follow-up
-     */
-    public List<FollowUpImpl> getAllFollowUps() {
-        return List.copyOf(this.followUps);
-    }
 }

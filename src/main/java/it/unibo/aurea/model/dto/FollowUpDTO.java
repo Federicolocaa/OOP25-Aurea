@@ -9,7 +9,7 @@ import it.unibo.aurea.model.api.OutcomeType;
  *
  * @param parentId the identifier of the parent card
  * @param childId the identifier of the child card to be triggered
- * @param trigger the required outcome 
+ * @param trigger the required outcome of a decision
  * @param delayTurn the number of turns to wait before triggering the child card
  */
 public record FollowUpDTO(
