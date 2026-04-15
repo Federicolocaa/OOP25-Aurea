@@ -84,12 +84,10 @@ class GameControllerImplTest {
 
         private boolean isCardDisplayed;
         private boolean isParametersUpdated;
-        private GameController controller;
 
         // --- NEW METHOD REQUIRED BY THE INTERFACE ---
         @Override
         public void setController(final GameController controller) {
-            this.controller = controller;
         }
 
         public boolean isCardDisplayed() {
