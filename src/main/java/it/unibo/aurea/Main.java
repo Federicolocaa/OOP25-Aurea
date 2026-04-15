@@ -8,7 +8,6 @@ import it.unibo.aurea.model.GameEngineImpl;
 import it.unibo.aurea.model.api.GameConfig;
 import it.unibo.aurea.model.api.GameEngine;
 import it.unibo.aurea.view.GameViewJavaFXImpl;
-
 import it.unibo.aurea.view.api.GameView;
 
 /**

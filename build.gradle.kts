@@ -28,7 +28,7 @@ java {
 
 val javaFXModules = listOf("base", "controls", "fxml", "swing", "graphics")
 
-val supportedPlatforms = listOf("linux", "mac", "win") // All required for OOP
+val supportedPlatforms = listOf("linux", "mac-aarch64", "win")
 
 dependencies {
     // Suppressions for SpotBugs
@@ -61,12 +61,7 @@ tasks.withType<Test> {
     // Enables JUnit 5 Jupiter module
     useJUnitPlatform()
 }
-/**  THIS PART OF CODDE IS TEMPORARLY COMMENTED BECAUSE WE DON'T HAVE 
-A Main CLASS
-val main: String by project
 
 application {
-    // Define the main class for the application
-    mainClass.set(main)
+    mainClass.set("it.unibo.aurea.Main")
 }
-*/
