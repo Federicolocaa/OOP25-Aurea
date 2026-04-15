@@ -38,7 +38,6 @@ public final class Main {
             view.setController(controller);
 
             controller.startGame();
-            
         } catch (final IllegalStateException e) { 
             System.err.println("Errors in configuration of the environment"); //NOPMD
         }

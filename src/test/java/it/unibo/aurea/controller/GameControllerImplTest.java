@@ -36,7 +36,6 @@ class GameControllerImplTest {
 
             // Create the Controller
             controller = new GameControllerImpl(fakeView, engine);
-            
             // Connect the controller to the fake view (as per interface requirement)
             fakeView.setController(controller);
 

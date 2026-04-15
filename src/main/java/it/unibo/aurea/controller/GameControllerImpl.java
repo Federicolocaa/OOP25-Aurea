@@ -6,6 +6,7 @@ import java.util.Set;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import it.unibo.aurea.controller.api.GameController;
 import it.unibo.aurea.model.Decision;
 import it.unibo.aurea.model.api.Card;
@@ -36,6 +37,10 @@ public final class GameControllerImpl implements GameController {
      * @param view the {@code GameView} to update
      * @param model the {@code GameEngine} used
      */
+    @SuppressFBWarnings(
+        value = "EI_EXPOSE_REP2",
+        justification = "The view must be stored as a reference to allow communication."
+    )
     public GameControllerImpl(final GameView view, final GameEngine model) {
         this.view = view;
         this.model = model;

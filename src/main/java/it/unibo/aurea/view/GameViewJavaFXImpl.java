@@ -1,6 +1,11 @@
 package it.unibo.aurea.view;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Objects;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import it.unibo.aurea.model.api.Card;
 import it.unibo.aurea.model.api.ParameterType;
@@ -29,29 +34,63 @@ import javafx.stage.Stage;
 /**
  * JavaFX implementation of the GameView, mimicking the Reigns UI/UX.
  */
-public class GameViewJavaFXImpl implements GameView {
+public final class GameViewJavaFXImpl implements GameView {
+
+    private static final double DRAG_THRESHOLD = 150.0;
+    private static final double ROTATION_FACTOR = 0.08;
+    private static final double DRAG_HINT_THRESHOLD = 30.0;
+    private static final int ICON_SIZE = 70;
+    private static final int DOT_RADIUS = 4;
+    private static final double DOT_STROKE_WIDTH = 1.2;
+    private static final int DOT_OFFSET_Y = -18;
+    private static final int CARD_SPACING = 25;
+    private static final int TOP_BAR_SPACING = 45;
+    private static final int SCENE_WIDTH = 900;
+    private static final int SCENE_HEIGHT = 850;
+    private static final String DEFAULT_VALUE = "50";
+
+    private static final int PADDING_TOP = 40;
+    private static final int PADDING_BOTTOM = 20;
+    private static final int CHAR_H = 220;
+    private static final int CHAR_W = 220;
+    private static final int TEXT_MAX_W = 260;
+    private static final int CARD_MAX_W = 340;
+    private static final int CARD_MAX_H = 520;
+    private static final int BOX_SPACING = 12;
+
+    private static final Logger LOGGER = Logger.getLogger(GameViewJavaFXImpl.class.getName());
 
     private Stage stage;
     private it.unibo.aurea.controller.api.GameController controller;
     private Card currentCard;
 
-    private VBox financesBox, studentsBox, professorsBox, reputationBox;
-    private Label financesLabel, studentsLabel, professorsLabel, reputationLabel;
-    
-    private Circle finDot, stuDot, proDot, repDot;
+    private VBox financesBox;
+    private VBox studentsBox;
+    private VBox professorsBox;
+    private VBox reputationBox;
+    private Label financesLabel;
+    private Label studentsLabel;
+    private Label professorsLabel;
+    private Label reputationLabel;
+    private Circle finDot;
+    private Circle stuDot;
+    private Circle proDot;
+    private Circle repDot;
 
     private VBox cardVisual;
     private Label cardMainText;
     private Label decisionHintLabel;
-    private StackPane characterPlaceholder;
-
     private double startX;
-    private static final double DRAG_THRESHOLD = 150.0;
 
+    /**
+     * Constructor for the JavaFX view.
+     */
     public GameViewJavaFXImpl() {
         try {
             Platform.startup(() -> { });
-        } catch (final IllegalStateException e) { }
+        } catch (final IllegalStateException e) {
+            LOGGER.log(Level.FINE, "JavaFX Platform already started", e);
+        }
 
         Platform.runLater(() -> {
             this.stage = new Stage();
@@ -59,21 +98,20 @@ public class GameViewJavaFXImpl implements GameView {
 
             initLabelsAndDots();
 
-            // Icons are now slightly larger (70px)
             this.financesBox = createParameterBox("businessman.png", financesLabel, finDot);
             this.studentsBox = createParameterBox("student.png", studentsLabel, stuDot);
             this.professorsBox = createParameterBox("professor.png", professorsLabel, proDot);
             this.reputationBox = createParameterBox("mum.png", reputationLabel, repDot);
 
-            final HBox topBar = new HBox(45);
+            final HBox topBar = new HBox(TOP_BAR_SPACING);
             topBar.setAlignment(Pos.CENTER);
-            topBar.setPadding(new Insets(40, 0, 20, 0));
+            topBar.setPadding(new Insets(PADDING_TOP, 0, PADDING_BOTTOM, 0));
             topBar.getChildren().addAll(financesBox, studentsBox, professorsBox, reputationBox);
 
             setupCard();
 
             final BorderPane root = new BorderPane();
-            RadialGradient bgGradient = new RadialGradient(
+            final RadialGradient bgGradient = new RadialGradient(
                 0, 0, 0.5, 0.5, 1, true, CycleMethod.NO_CYCLE,
                 new Stop(0, Color.web("#34495e")),
                 new Stop(1, Color.web("#1a1a1a"))
@@ -83,21 +121,20 @@ public class GameViewJavaFXImpl implements GameView {
             root.setTop(topBar);
             root.setCenter(new StackPane(cardVisual));
 
-            final Scene scene = new Scene(root, 900, 850);
+            final Scene scene = new Scene(root, SCENE_WIDTH, SCENE_HEIGHT);
             this.stage.setScene(scene);
             this.stage.show();
         });
     }
 
     private void initLabelsAndDots() {
-        this.financesLabel = new Label("50");
-        this.studentsLabel = new Label("50");
-        this.professorsLabel = new Label("50");
-        this.reputationLabel = new Label("50");
+        this.financesLabel = new Label(DEFAULT_VALUE);
+        this.studentsLabel = new Label(DEFAULT_VALUE);
+        this.professorsLabel = new Label(DEFAULT_VALUE);
+        this.reputationLabel = new Label(DEFAULT_VALUE);
         this.cardMainText = new Label("Loading card...");
         this.decisionHintLabel = new Label("");
 
-        // Dots are now smaller (radius 4)
         this.finDot = createOracleDot();
         this.stuDot = createOracleDot();
         this.proDot = createOracleDot();
@@ -105,140 +142,164 @@ public class GameViewJavaFXImpl implements GameView {
     }
 
     private Circle createOracleDot() {
-        Circle dot = new Circle(4, Color.GOLD);
+        final Circle dot = new Circle(DOT_RADIUS, Color.GOLD);
         dot.setStroke(Color.WHITE);
-        dot.setStrokeWidth(1.2);
+        dot.setStrokeWidth(DOT_STROKE_WIDTH);
         dot.setOpacity(0);
         return dot;
     }
 
     private void setupCard() {
-        characterPlaceholder = new StackPane();
-        characterPlaceholder.setPrefSize(220, 220); // Slightly larger
-        characterPlaceholder.setStyle("-fx-background-color: #dcdde1; -fx-background-radius: 10; -fx-border-color: #7f8c8d; -fx-border-width: 1;");
-        
-        cardMainText.setWrapText(true);
-        cardMainText.setStyle("-fx-font-size: 19px; -fx-font-family: 'Verdana'; -fx-text-alignment: center; -fx-text-fill: #2f3640;");
-        cardMainText.setMaxWidth(260);
+        final StackPane characterPlaceholder = new StackPane();
+        characterPlaceholder.setPrefSize(CHAR_W, CHAR_H);
+        characterPlaceholder.setStyle("-fx-background-color: #dcdde1; -fx-background-radius: 10; "
+                + "-fx-border-color: #7f8c8d; -fx-border-width: 1;");
 
-        decisionHintLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 26px;");
-        
-        this.cardVisual = new VBox(25);
+        this.cardMainText.setWrapText(true);
+        this.cardMainText.setStyle("-fx-font-size: 19px; -fx-font-family: 'Verdana'; "
+                + "-fx-text-alignment: center; -fx-text-fill: #2f3640;");
+        this.cardMainText.setMaxWidth(TEXT_MAX_W);
+
+        this.decisionHintLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 26px;");
+
+        this.cardVisual = new VBox(CARD_SPACING);
         this.cardVisual.setAlignment(Pos.CENTER);
-        this.cardVisual.setPadding(new Insets(20));
+        this.cardVisual.setPadding(new Insets(PADDING_BOTTOM));
         this.cardVisual.setStyle("-fx-background-color: #f5f6fa; -fx-background-radius: 25; "
-                               + "-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.5), 20, 0, 0, 10);");
-        this.cardVisual.setMaxSize(340, 520);
+                + "-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.5), 20, 0, 0, 10);");
+        this.cardVisual.setMaxSize(CARD_MAX_W, CARD_MAX_H);
         this.cardVisual.getChildren().addAll(decisionHintLabel, characterPlaceholder, cardMainText);
 
-        cardVisual.setOnMousePressed(e -> startX = e.getSceneX());
-        cardVisual.setOnMouseDragged(this::handleDrag);
-        cardVisual.setOnMouseReleased(this::handleRelease);
+        this.cardVisual.setOnMousePressed(e -> {
+            this.startX = e.getSceneX();
+        });
+        this.cardVisual.setOnMouseDragged(this::handleDrag);
+        this.cardVisual.setOnMouseReleased(this::handleRelease);
     }
 
-    private VBox createParameterBox(String fileName, Label valueLabel, Circle dot) {
-        VBox container = new VBox(12); // Slightly more vertical spacing
+    private VBox createParameterBox(final String fileName, final Label valLabel, final Circle dot) {
+        final VBox container = new VBox(BOX_SPACING);
         container.setAlignment(Pos.CENTER);
-        StackPane iconStack = new StackPane();
-        
-        try {
-            Image icon = new Image(getClass().getResourceAsStream("/" + fileName));
-            ImageView imageView = new ImageView(icon);
-            imageView.setFitWidth(70);  // Increased size
-            imageView.setFitHeight(70);
-            imageView.setPreserveRatio(true);
-            
-            StackPane.setAlignment(dot, Pos.TOP_CENTER);
-            dot.setTranslateY(-18); // Moved further up, away from the image
-            
-            iconStack.getChildren().addAll(imageView, dot);
-        } catch (Exception e) {
+        final StackPane iconStack = new StackPane();
+
+        try (InputStream resource = getClass().getResourceAsStream("/" + fileName)) {
+            if (Objects.nonNull(resource)) {
+                final Image icon = new Image(resource);
+                final ImageView imageView = new ImageView(icon);
+                imageView.setFitWidth(ICON_SIZE);
+                imageView.setFitHeight(ICON_SIZE);
+                imageView.setPreserveRatio(true);
+
+                StackPane.setAlignment(dot, Pos.TOP_CENTER);
+                dot.setTranslateY(DOT_OFFSET_Y);
+                iconStack.getChildren().addAll(imageView, dot);
+            } else {
+                iconStack.getChildren().add(new Label("?"));
+            }
+        } catch (final IOException e) {
+            LOGGER.log(Level.SEVERE, "Could not load image resource", e);
             iconStack.getChildren().add(new Label("?"));
         }
 
-        valueLabel.setStyle("-fx-text-fill: #f5f6fa; -fx-font-size: 18px; -fx-font-weight: bold;");
-        container.getChildren().addAll(iconStack, valueLabel);
+        valLabel.setStyle("-fx-text-fill: #f5f6fa; -fx-font-size: 18px; -fx-font-weight: bold;");
+        container.getChildren().addAll(iconStack, valLabel);
         return container;
     }
 
-    private void handleDrag(javafx.scene.input.MouseEvent event) {
-        double offsetX = event.getSceneX() - startX;
-        cardVisual.setTranslateX(offsetX);
-        cardVisual.setRotate(offsetX * 0.08);
+    private void handleDrag(final javafx.scene.input.MouseEvent event) {
+        final double offsetX = event.getSceneX() - startX;
+        this.cardVisual.setTranslateX(offsetX);
+        this.cardVisual.setRotate(offsetX * ROTATION_FACTOR);
 
-        if (Math.abs(offsetX) > 30 && currentCard != null) {
-            boolean isRight = offsetX > 0;
-            decisionHintLabel.setOpacity(Math.min(Math.abs(offsetX) / DRAG_THRESHOLD, 1.0));
-            decisionHintLabel.setText(isRight ? currentCard.getApproval().getAnswer() : currentCard.getRefusal().getAnswer());
-            decisionHintLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 26px; -fx-text-fill: " + (isRight ? "#44bd32;" : "#e84118;"));
+        if (Math.abs(offsetX) > DRAG_HINT_THRESHOLD && currentCard != null) {
+            final boolean isRight = offsetX > 0;
+            this.decisionHintLabel.setOpacity(Math.min(Math.abs(offsetX) / DRAG_THRESHOLD, 1.0));
+            this.decisionHintLabel.setText(isRight ? currentCard.getApproval().getAnswer() 
+                : currentCard.getRefusal().getAnswer());
+            this.decisionHintLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 26px; -fx-text-fill: "
+                    + (isRight ? "#44bd32;" : "#e84118;"));
             highlightParameters(isRight);
         } else {
-            decisionHintLabel.setOpacity(0);
+            this.decisionHintLabel.setOpacity(0);
             resetHighlights();
         }
     }
 
-    private void handleRelease(javafx.scene.input.MouseEvent event) {
-        double offsetX = event.getSceneX() - startX;
+    private void handleRelease(final javafx.scene.input.MouseEvent event) {
+        final double offsetX = event.getSceneX() - startX;
         if (Math.abs(offsetX) > DRAG_THRESHOLD && controller != null) {
-            controller.makeDecision(offsetX > 0);
+            this.controller.makeDecision(offsetX > 0);
         }
-        cardVisual.setTranslateX(0);
-        cardVisual.setRotate(0);
-        decisionHintLabel.setOpacity(0);
+        this.cardVisual.setTranslateX(0);
+        this.cardVisual.setRotate(0);
+        this.decisionHintLabel.setOpacity(0);
         resetHighlights();
     }
 
-    private void highlightParameters(boolean isApproval) {
-        if (controller == null) return;
-        Set<ParameterType> affected = controller.previewDecision(isApproval);
-        resetHighlights();
-        
-        // Safety check: ensure the set isn't empty and types match exactly
-        affected.forEach(type -> {
-            switch (type) {
-                case FINANCES -> finDot.setOpacity(1);
-                case STUDENTS -> stuDot.setOpacity(1);
-                case PROFESSORS -> proDot.setOpacity(1);
-                case REPUTATION -> repDot.setOpacity(1); // Check: model must use ParameterType.REPUTATION
-            }
-        });
+    private void highlightParameters(final boolean isApproval) {
+        if (this.controller != null) {
+            final Set<ParameterType> affected = this.controller.previewDecision(isApproval);
+            resetHighlights();
+            affected.forEach(type -> {
+                switch (type) {
+                    case FINANCES -> finDot.setOpacity(1);
+                    case STUDENTS -> stuDot.setOpacity(1);
+                    case PROFESSORS -> proDot.setOpacity(1);
+                    case REPUTATION -> repDot.setOpacity(1);
+                }
+            });
+        }
     }
 
     private void resetHighlights() {
-        if (finDot != null) { 
-            finDot.setOpacity(0); 
-            stuDot.setOpacity(0); 
-            proDot.setOpacity(0); 
-            repDot.setOpacity(0); 
+        if (finDot != null) {
+            finDot.setOpacity(0);
+            stuDot.setOpacity(0);
+            proDot.setOpacity(0);
+            repDot.setOpacity(0);
         }
     }
 
     @Override
-    public void displayCard(Card card) {
+    public void displayCard(final Card card) {
         this.currentCard = card;
         Platform.runLater(() -> {
-            if (cardMainText != null && card != null) {
-                // Future-proofing: replace with card description when backend is ready
-                cardMainText.setText("What is your decision regarding this university event?");
+            if (this.cardMainText != null && card != null) {
+                this.cardMainText.setText("Decision needed for "
+                    + "university management.");
             }
         });
     }
 
     @Override
-    public void updateParameters(int f, int s, int p, int r) {
+    public void updateParameters(final int f, final int s, final int p, final int r) {
         Platform.runLater(() -> {
-            if (financesLabel != null) {
-                financesLabel.setText(String.valueOf(f));
-                studentsLabel.setText(String.valueOf(s));
-                professorsLabel.setText(String.valueOf(p));
-                reputationLabel.setText(String.valueOf(r));
+            if (this.financesLabel != null) {
+                this.financesLabel.setText(String.valueOf(f));
+                this.studentsLabel.setText(String.valueOf(s));
+                this.professorsLabel.setText(String.valueOf(p));
+                this.reputationLabel.setText(String.valueOf(r));
             }
         });
     }
 
-    @Override public void setController(it.unibo.aurea.controller.api.GameController c) { this.controller = c; }
-    @Override public void showVictory() { Platform.runLater(() -> cardMainText.setText("VICTORY!")); }
-    @Override public void showDefeat() { Platform.runLater(() -> cardMainText.setText("DEFEAT!")); }
-    @Override public void showGameOver(String reason) { Platform.runLater(() -> cardMainText.setText("GAME OVER:\n" + reason)); }
+    @Override
+    public void setController(final it.unibo.aurea.controller.api.GameController c) {
+        this.controller = c;
+    }
+
+    @Override
+    public void showVictory() {
+        Platform.runLater(() -> this.cardMainText.setText("VICTORY!"));
+    }
+
+    @Override
+    public void showDefeat() {
+        Platform.runLater(() -> this.cardMainText.setText("DEFEAT!"));
+    }
+
+    @Override
+    public void showGameOver(final String reason) {
+        Platform.runLater(() -> this.cardMainText.setText("GAME OVER:\n" + reason));
+    }
 }
