@@ -25,19 +25,19 @@ class GameControllerImplTest {
      * Sets up a fresh MVC environment before each test.
      */
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         try {
             // Initialize the real Model (just like in the Main class)
             final Deck deck = new Deck();
             final GameEngineImpl engine = new GameEngineImpl(GameConfigImpl.createStandard(), deck);
-            
+
             // Initialize the fake View
             fakeView = new FakeView();
-            
+
             // Create the Controller to be tested
             controller = new GameControllerImpl(fakeView, engine);
-            
-        } catch (final Exception e) {
+
+        } catch (final IllegalStateException e) {
             throw new IllegalStateException("Error during test initialization", e);
         }
     }
@@ -46,39 +46,39 @@ class GameControllerImplTest {
     void testStartGameTriggersView() {
         // When I start the game...
         controller.startGame();
-        
+
         // ...the fake view must have received the order to display a card
-        assertTrue(fakeView.isCardDisplayed, "The View should have displayed the first card.");
+        assertTrue(fakeView.isCardDisplayed(), "The View should have displayed the first card.");
     }
 
     @Test
     void testMakeDecisionUpdatesView() {
         controller.startGame();
-        fakeView.isCardDisplayed = false; // Reset the spy flag
-        
+        fakeView.setCardDisplayed(false); // Reset the spy flag
+
         // When the player makes a decision...
         controller.makeDecision(true);
-        
+
         // ...the controller must move to the next card and update the view
-        assertTrue(fakeView.isCardDisplayed, "The View should have been updated after the decision.");
+        assertTrue(fakeView.isCardDisplayed(), "The View should have been updated after the decision.");
     }
 
     @Test
     void testObserverUpdatesParameters() {
         controller.startGame();
-        fakeView.isParametersUpdated = false; // Reset the spy flag
-        
+        fakeView.setParametersUpdated(false); // Reset the spy flag
+
         // When a decision is made, parameters are modified
         controller.makeDecision(false);
-        
+
         // The Observer pattern should automatically notify the view
-        assertTrue(fakeView.isParametersUpdated, "The View should have been notified of parameter changes via Observer.");
+        assertTrue(fakeView.isParametersUpdated(), "The View should have been notified of parameter changes via Observer.");
     }
 
     @Test
     void testRobustnessNoCrash() {
         controller.startGame();
-        
+
         // Verify that the controller never crashes (thanks to our fail-safe checks)
         // even when simulating rapid, consecutive calls
         assertDoesNotThrow(() -> {
@@ -91,11 +91,27 @@ class GameControllerImplTest {
     /**
      * A fake class that acts as a "spy" on the Controller's actions without using the real GUI.
      */
-    private static class FakeView implements GameView {
-        
+    private static final class FakeView implements GameView {
+
         // "Spies" to track if methods have been called
-        boolean isCardDisplayed;
-        boolean isParametersUpdated;
+        private boolean isCardDisplayed;
+        private boolean isParametersUpdated;
+
+        public boolean isCardDisplayed() {
+            return this.isCardDisplayed;
+        }
+
+        public void setCardDisplayed(final boolean status) {
+            this.isCardDisplayed = status;
+        }
+
+        public boolean isParametersUpdated() {
+            return this.isParametersUpdated;
+        }
+
+        public void setParametersUpdated(final boolean status) {
+            this.isParametersUpdated = status;
+        }
 
         @Override
         public void displayCard(final Card card) {

@@ -1,6 +1,8 @@
 package it.unibo.aurea.controller;
 
+import java.util.Collections;
 import java.util.Map;
+import java.util.Set;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
@@ -94,6 +96,27 @@ public final class GameControllerImpl implements GameController {
             // Update the UI to show the next card or the game over screen
             updateUI();
         }
+    }
+
+    @Override
+    public Set<ParameterType> previewDecision(final boolean isApproval) {
+        final Card currentCard = model.getCurrentCard();
+
+        // Fail-safe: if there isn't card or the game is not running, return an empty set
+        if (currentCard == null || model.getGameState() != GameState.RUNNING) {
+            return Collections.emptySet();
+        }
+
+        final Decision decision = isApproval ? currentCard.getApproval() : currentCard.getRefusal();
+
+        if (decision == null || decision.getEffects() == null) {
+            return Collections.emptySet();
+        }
+
+        // Map the effects to their parameter types and collect them in a Set (to avoid duplicates)
+        return decision.getEffects().stream()
+            .map(Effect::getParameter)
+            .collect(Collectors.toSet());
     }
 
     /**
