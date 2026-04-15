@@ -25,7 +25,7 @@ class GameControllerImplTest {
      * Sets up a fresh MVC environment before each test.
      */
     @BeforeEach
-    void setUp() {
+    public void setUp() {
         try {
             // Initialize the real Model (just like in the Main class)
             final Deck deck = new Deck();
