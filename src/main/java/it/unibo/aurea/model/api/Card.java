@@ -11,6 +11,13 @@ import it.unibo.aurea.model.Decision;
  */
 public interface Card {
     /**
+     * An univocal id for this object.
+     * 
+     * @return a {@code String} representing the card
+     */
+    String getId();
+
+    /**
      * Get the text of a question that desribes its purpose.
      * 
      * @return the {@code String} of a question

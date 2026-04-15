@@ -1,0 +1,5 @@
+followups:
+  - parentId: prof_founding_research
+    childId: prof_research_launch
+    trigger: APPROVAL
+    delayTurn: 1
