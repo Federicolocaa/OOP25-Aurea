@@ -19,6 +19,7 @@ import javafx.stage.Stage;
 public class GameViewJavaFXImpl implements GameView {
 
     private Stage stage;
+    private it.unibo.aurea.controller.api.GameController controller; // Il riferimento al Controller
     
     // UI Elements for Parameters
     private Label financesLabel;
@@ -33,12 +34,14 @@ public class GameViewJavaFXImpl implements GameView {
      * Constructor for the JavaFX View.
      */
     public GameViewJavaFXImpl() {
+        // 1. Accendiamo il motore di JavaFX
         try {
             Platform.startup(() -> { });
         } catch (final IllegalStateException e) {
-            // Se è già acceso, ignoriamo l'eccezione tranquillamente
+            // Ignoriamo se è già acceso
         }
 
+        // 2. Costruiamo la grafica
         Platform.runLater(() -> {
             this.stage = new Stage();
             this.stage.setTitle("Aurea - University Reign");
@@ -68,11 +71,26 @@ public class GameViewJavaFXImpl implements GameView {
             cardArea.getChildren().add(cardVisual);
             root.setCenter(cardArea);
 
-            // --- BOTTOM: Temporary Buttons ---
+            // --- BOTTOM: Buttons ---
             final HBox buttonBox = new HBox(50);
             buttonBox.setAlignment(Pos.CENTER);
+            
+            // Action for SI
             final Button yesButton = new Button("SÌ (Approve)");
+            yesButton.setOnAction(e -> {
+                if (this.controller != null) {
+                    this.controller.makeDecision(true);
+                }
+            });
+
+            // Action for NO
             final Button noButton = new Button("NO (Refuse)");
+            noButton.setOnAction(e -> {
+                if (this.controller != null) {
+                    this.controller.makeDecision(false);
+                }
+            });
+
             buttonBox.getChildren().addAll(noButton, yesButton);
             root.setBottom(buttonBox);
 
@@ -84,10 +102,14 @@ public class GameViewJavaFXImpl implements GameView {
     }
 
     @Override
+    public void setController(final it.unibo.aurea.controller.api.GameController controller) {
+        this.controller = controller;
+    }
+
+    @Override
     public void displayCard(final Card card) {
         Platform.runLater(() -> {
             if (card != null && card.getApproval() != null) {
-                // Per ora prendiamo l'Answer, in futuro prenderemo la Description dell'evento
                 cardTextLabel.setText("Decision: \n" + card.getApproval().getAnswer()); 
             }
         });
@@ -96,7 +118,7 @@ public class GameViewJavaFXImpl implements GameView {
     @Override
     public void updateParameters(final int finances, final int students, final int professors, final int reputation) {
         Platform.runLater(() -> {
-            if (financesLabel != null) { // Sicurezza per evitare null pointer
+            if (financesLabel != null) { 
                 financesLabel.setText("Finances: " + finances);
                 studentsLabel.setText("Students: " + students);
                 professorsLabel.setText("Professors: " + professors);
@@ -108,21 +130,27 @@ public class GameViewJavaFXImpl implements GameView {
     @Override
     public void showVictory() {
         Platform.runLater(() -> {
-            if (cardTextLabel != null) cardTextLabel.setText("VICTORY!");
+            if (cardTextLabel != null) {
+                cardTextLabel.setText("VICTORY!");
+            }
         });
     }
 
     @Override
     public void showDefeat() {
         Platform.runLater(() -> {
-            if (cardTextLabel != null) cardTextLabel.setText("DEFEAT!");
+            if (cardTextLabel != null) {
+                cardTextLabel.setText("DEFEAT!");
+            }
         });
     }
 
     @Override
     public void showGameOver(final String reason) {
         Platform.runLater(() -> {
-            if (cardTextLabel != null) cardTextLabel.setText("GAME OVER: " + reason);
+            if (cardTextLabel != null) {
+                cardTextLabel.setText("GAME OVER: " + reason);
+            }
         });
     }
 }

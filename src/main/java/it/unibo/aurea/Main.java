@@ -11,8 +11,8 @@ import it.unibo.aurea.view.GameViewJavaFXImpl;
 import it.unibo.aurea.view.api.GameView;
 
 /**
- * this class is external from the MVC and si used only to start everything and creating the object model.
- * it isn't a static method inside the controller for respect the SRP principle.
+ * This class is external from the MVC and is used only to start everything and creating the object model.
+ * It isn't a static method inside the controller for respect the SRP principle.
  */
 public final class Main {
 
@@ -26,20 +26,21 @@ public final class Main {
      */
     public static void main(final String[] args) {
         try {
-            // creation of elements for the MVC objects
+            // Creation of elements for the MVC objects
             final GameConfig config = GameConfigImpl.createStandard();
-            final Deck deck = new Deck(); // Se qui fallisce, il catch sotto lo intercetta
+            final Deck deck = new Deck();
 
-            //creation MVC objects
+            // Creation MVC objects
             final GameEngine engine = new GameEngineImpl(config, deck);
-
-            final GameView view = new GameViewJavaFXImpl(); //here you can choose the implementaion of the view
-
+            final GameView view = new GameViewJavaFXImpl();
             final GameController controller = new GameControllerImpl(view, engine);
 
+            view.setController(controller);
+
             controller.startGame();
+            
         } catch (final IllegalStateException e) { 
-            System.err.println("errors in configuration of the enviroment"); //NOPMD
+            System.err.println("Errors in configuration of the environment"); //NOPMD
         }
     }
 }

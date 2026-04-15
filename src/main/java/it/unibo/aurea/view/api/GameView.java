@@ -41,4 +41,11 @@ public interface GameView {
      * this method handles the graphic of the Game over situation.
      */
     void showDefeat();
+
+    /**
+     * Links the Controller to the View so the View can send user inputs (like button clicks).
+     * 
+     * @param controller the GameController.
+     */
+    void setController(it.unibo.aurea.controller.api.GameController controller);
 }
