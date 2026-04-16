@@ -74,7 +74,8 @@ public final class GameEngineImpl implements GameEngine {
 
     @Override
     public GameState getGameState() {
-        if (!areAllParametersAlive()) {
+        if (!areAllParametersAlive()) { 
+            //don't invert this if because is amde to check the parameters also after the last choice.
             return GameState.LOST;
         }
         if (gameClock.isTimeFinished()) {
