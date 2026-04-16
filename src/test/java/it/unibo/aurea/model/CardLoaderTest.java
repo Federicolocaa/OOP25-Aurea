@@ -1,0 +1,71 @@
+package it.unibo.aurea;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
+import java.io.IOException;
+
+import org.junit.jupiter.api.Test;
+
+import it.unibo.aurea.model.Deck;
+import it.unibo.aurea.model.FollowUpImpl;
+import it.unibo.aurea.model.api.Card;
+import it.unibo.aurea.model.api.CharacterType;
+import it.unibo.aurea.model.api.OutcomeType;
+import it.unibo.aurea.model.api.ParameterType;
+
+/** 
+ * Small test to ensure loading cards from .yaml file works.
+ * SONO DA RISISTEMARE E SEMPLIFICARE
+ */
+class CardLoaderTest {
+    private static final int MEDIUM_CHANGE = 7;
+    private static final int IMPOSSIBLE_OCCURENCE = 2;
+    private final Deck cards = new Deck();
+
+    @Test
+    void deckLoader() throws IOException {
+        final Card first = cards.getAllCards().get(0);
+        assertEquals("prof_founding_research", first.getId());
+        assertEquals(CharacterType.PROFESSOR, first.getCharacter());
+        assertEquals(ParameterType.PROFESSORS, first.getRefusal().getEffects().getFirst().getParameter());
+        assertEquals("No, the budget is too tight", first.getRefusal().getAnswer());
+        final Card third = cards.getAllCards().get(2);
+        assertEquals("mum_campus_safety", third.getId());
+        assertEquals(CharacterType.MUM, third.getCharacter());
+        assertEquals(ParameterType.REPUTATION, third.getApproval().getEffects().getFirst().getParameter());
+        assertEquals(MEDIUM_CHANGE, third.getApproval().getEffects().getFirst().getDelta());
+    }
+
+    @Test
+    void differentIdCards() throws IOException {
+        for (final Card tmp : cards.getAllCards()) {
+            int occurence = 0;
+            for (final Card current : cards.getAllCards()) {
+                if (current.getId().equals(tmp.getId())) {
+                    occurence++;
+                }
+            }
+            assertNotEquals(IMPOSSIBLE_OCCURENCE, occurence);
+        }
+    }
+
+    // per ora qui ma sarà da spostare quando si penserà alla view
+    @Test
+    void imageLoader() throws IOException {
+        for (final Card c : cards.getAllCards()) {
+            assertNotNull(
+                getClass().getResource(c.getCharacter().getImagePath()),
+                "image not found" + c.getCharacter().getImagePath());
+        }
+    }
+
+    // anche questo forse da spostare
+    @Test
+    void loadFollowUps() throws IOException {
+        final FollowUpImpl firstFU = cards.getAllFollowUps().getFirst();
+        assertEquals("prof_founding_research", firstFU.getParentId());
+        assertEquals(OutcomeType.APPROVAL, firstFU.getTrigger()); 
+    }
+}
