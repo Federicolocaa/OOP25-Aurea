@@ -1,4 +1,4 @@
-package it.unibo.aurea;
+package it.unibo.aurea.model;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
@@ -8,8 +8,6 @@ import java.io.IOException;
 
 import org.junit.jupiter.api.Test;
 
-import it.unibo.aurea.model.Deck;
-import it.unibo.aurea.model.FollowUpImpl;
 import it.unibo.aurea.model.api.Card;
 import it.unibo.aurea.model.api.CharacterType;
 import it.unibo.aurea.model.api.OutcomeType;

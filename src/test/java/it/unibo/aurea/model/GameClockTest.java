@@ -1,12 +1,10 @@
-package it.unibo.aurea;
+package it.unibo.aurea.model;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import it.unibo.aurea.model.GameClockImpl;
-import it.unibo.aurea.model.GameConfigImpl;
 import it.unibo.aurea.model.api.GameClock;
 import it.unibo.aurea.model.api.GameConfig;
 
@@ -33,7 +31,6 @@ final class GameClockTest {
 
         clock.nextTurn();
 
-        //TODO: Adapt the test to support different game configurations:
         // Currently, it assumes that after a single decision the semester does not change,
         // which is specific to the standard game mode.
         // In the future, a game mode could be introduced where a single card affects an entire parameter cycle.
@@ -44,7 +41,7 @@ final class GameClockTest {
     @Test
     void testSemesterFlow() {
         final int cardsPerSemester = config.getCardsPerSemester();
-        
+
         for (int i = 0; i < cardsPerSemester; i++) {
             clock.nextTurn();
         }
