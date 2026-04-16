@@ -3,23 +3,28 @@ package it.unibo.aurea;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import it.unibo.aurea.model.GameClockImpl;
 import it.unibo.aurea.model.GameConfigImpl;
 import it.unibo.aurea.model.api.GameClock;
 import it.unibo.aurea.model.api.GameConfig;
 
-public class GameClockTest {
+/**
+ * this class is used to test the functionality of the gameClock
+ * this is uìsed to chek that every modification to the implementation doesn't 
+ * contains errors in the functionality.
+ */
+final class GameClockTest {
     private GameClock clock;
-    private GameConfig config;
+    //private GameConfig config;
 
     @BeforeEach
     void configuration() {
-        config = GameConfigImpl.createStandard();
+        final GameConfig config = GameConfigImpl.createStandard(); //TO DO check if is better
+        //to have it like a field or a a local variable
         clock = new GameClockImpl(config);
     }
-    
+
     @Test
     void testSingleTurnProgression() {
         final int initialTurn = clock.getCurrentTurn();
@@ -34,5 +39,5 @@ public class GameClockTest {
         assertEquals(initialTurn + 1, clock.getCurrentTurn(), "The turn should advance by exactly 1");
         assertEquals(initialSemester, clock.getCurrentSemester(), "The semester cannot change after just one turn");
     }
-    
+
 }
