@@ -11,5 +11,28 @@ import it.unibo.aurea.model.api.GameClock;
 import it.unibo.aurea.model.api.GameConfig;
 
 public class GameClockTest {
+    private GameClock clock;
+    private GameConfig config;
+
+    @BeforeEach
+    void configuration() {
+        config = GameConfigImpl.createStandard();
+        clock = new GameClockImpl(config);
+    }
+    
+    @Test
+    void testSingleTurnProgression() {
+        final int initialTurn = clock.getCurrentTurn();
+        final int initialSemester = clock.getCurrentSemester();
+
+        clock.nextTurn();
+
+        // Adapt the test to support different game configurations.
+        // Currently, it assumes that after a single decision the semester does not change,
+        // which is specific to the standard game mode.
+        // In the future, a game mode could be introduced where a single card affects an entire parameter cycle.
+        assertEquals(initialTurn + 1, clock.getCurrentTurn(), "The turn should advance by exactly 1");
+        assertEquals(initialSemester, clock.getCurrentSemester(), "The semester cannot change after just one turn");
+    }
     
 }
