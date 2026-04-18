@@ -41,11 +41,11 @@ public final class GameClockImpl implements GameClock {
     }
 
     private boolean hasNextSemester() {
-        return this.currentTurn + 1 < this.gameConfiguration.getSemestersPerGame();
+        return this.currentSemester + 1 < this.gameConfiguration.getSemestersPerGame();
     }
 
     private boolean hasNextTurnInSemester() {
-        return this.currentSemester + 1 < this.gameConfiguration.getCardsPerSemester();
+        return this.currentTurn + 1 < this.gameConfiguration.getCardsPerSemester();
     }
 
     //GETTERS
