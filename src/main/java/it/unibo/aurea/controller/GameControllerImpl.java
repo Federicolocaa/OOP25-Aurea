@@ -164,7 +164,7 @@ public final class GameControllerImpl implements GameController {
      */
     private String determineDefeatReason() {
         return parametersMap.values().stream()
-            .filter(p -> p.getLevel() <= 0)
+            .filter(p -> p.getLevel() <= 0 || p.getLevel() >= 100)
             .map(p -> p.getName().toString())
             .findFirst()
             .orElse("Unknown Causes");
