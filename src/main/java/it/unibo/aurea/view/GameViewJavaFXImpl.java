@@ -98,10 +98,10 @@ public final class GameViewJavaFXImpl implements GameView {
 
             initLabelsAndDots();
 
-            this.financesBox = createParameterBox("businessman.png", financesLabel, finDot);
-            this.studentsBox = createParameterBox("student.png", studentsLabel, stuDot);
-            this.professorsBox = createParameterBox("professor.png", professorsLabel, proDot);
-            this.reputationBox = createParameterBox("mum.png", reputationLabel, repDot);
+            this.financesBox = createParameterBox("param_finances.png", financesLabel, finDot);
+            this.studentsBox = createParameterBox("param_students.png", studentsLabel, stuDot);
+            this.professorsBox = createParameterBox("param_professors.png", professorsLabel, proDot);
+            this.reputationBox = createParameterBox("param_reputation.png", reputationLabel, repDot);
 
             final HBox topBar = new HBox(TOP_BAR_SPACING);
             topBar.setAlignment(Pos.CENTER);
